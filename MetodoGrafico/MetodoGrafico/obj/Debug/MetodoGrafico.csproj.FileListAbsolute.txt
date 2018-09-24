@@ -1,0 +1,9 @@
+C:\Users\JUAN DAVID\source\Programas\MetodoGrafico\MetodoGrafico\bin\Debug\MetodoGrafico.exe.config
+C:\Users\JUAN DAVID\source\Programas\MetodoGrafico\MetodoGrafico\bin\Debug\MetodoGrafico.exe
+C:\Users\JUAN DAVID\source\Programas\MetodoGrafico\MetodoGrafico\bin\Debug\MetodoGrafico.pdb
+C:\Users\JUAN DAVID\source\Programas\MetodoGrafico\MetodoGrafico\obj\Debug\MetodoGrafico.csprojResolveAssemblyReference.cache
+C:\Users\JUAN DAVID\source\Programas\MetodoGrafico\MetodoGrafico\obj\Debug\MetodoGrafico.Properties.Resources.resources
+C:\Users\JUAN DAVID\source\Programas\MetodoGrafico\MetodoGrafico\obj\Debug\MetodoGrafico.csproj.GenerateResource.Cache
+C:\Users\JUAN DAVID\source\Programas\MetodoGrafico\MetodoGrafico\obj\Debug\MetodoGrafico.exe
+C:\Users\JUAN DAVID\source\Programas\MetodoGrafico\MetodoGrafico\obj\Debug\MetodoGrafico.pdb
+C:\Users\JUAN DAVID\source\Programas\MetodoGrafico\MetodoGrafico\obj\Debug\MetodoGrafico.MetodoGrafico.resources
