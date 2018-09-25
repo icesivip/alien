@@ -85,57 +85,6 @@ public class SistemaLoteo {
 		return pedidos;
 	}     
 	
-	//DEBO REVISAR
-//	public ArrayList<Integer> LUC(){
-//		
-//		boolean aplicaCostoMantener=false;
-//		ArrayList<Integer> diasPedidos= new ArrayList<>();
-//		int tamanoLote = articulosSemanales.get(0);
-//		double costoUnitario = (costoPreparacion)/tamanoLote;
-//		for (int i = 0; i <articulosSemanales.size(); i++) {
-//			
-//			double 	costoUnitario2 =0;
-//			if (aplicaCostoMantener) {
-//				costoUnitario2 = (costoPreparacion)/tamanoLote;
-//				costoUnitario=costoUnitario2;
-//			}else {
-//		     	costoUnitario2 = (costoPreparacion+(costoMantenimiento*costoArticulo*articulosSemanales.get(i)))/tamanoLote;
-//				
-//			}
-//			if (costoUnitario<costoUnitario2) {
-//				diasPedidos.add(i+1);
-//				tamanoLote=tamanoLote+ articulosSemanales.get(i);
-//				aplicaCostoMantener=true;
-//			}else {
-//				costoUnitario=costoUnitario2;
-//			}
-//		}
-//		return diasPedidos;
-//	}
-	
-	
-	/*revisar*/
-//	public ArrayList<Integer> sistemaMenorCostoUnitario(){
-//		ArrayList<Integer> retorno = new ArrayList<Integer>();
-//		double costoUnitarioAnterior = 0;
-//		int unidAcumuladas = 0;
-//		int contadorPeriodos = 1;
-//		for(int i = 0; i < articulosSemanales.size()-1; i++) {
-//			costoUnitarioAnterior = ((unidAcumuladas*costoMantenimiento)*1.0 + costoPreparacion)/articulosSemanales.get(i);
-//			unidAcumuladas += articulosSemanales.get(i+1);
-//			double costoUnitarioActual = ((unidAcumuladas*costoMantenimiento)*1.0 + costoPreparacion)/articulosSemanales.get(i+1);
-//			if(costoUnitarioActual > costoUnitarioAnterior) {
-//				for(int j = 0; j < contadorPeriodos; j++) {
-//					retorno.add()
-//				}
-//				contadorPeriodos = 0;				
-//			}else{
-//				contadorPeriodos++;
-//			}
-//		}
-//		return retorno;
-//	}
-	
 	public ArrayList<Integer> sistemaCantidadDeOrdenDePeriodo(){
 		ArrayList<Integer> retornoReves = new ArrayList<Integer>();
 		int demanda = 0;
@@ -192,11 +141,7 @@ public class SistemaLoteo {
 		pedidos.add(60);
 		pedidos.add(55);
 		SistemaLoteo l = new SistemaLoteo(10, 47, 0.005, pedidos);
-		System.out.println(l.sistemaCantidadDeOrdenEconomica());	
-		//LUC TRAE PROBLEMAS...
-//	ArrayList<Integer>POS = l.LUC();
-//	for (int i = 0; i < POS.size(); i++) {
-//		System.out.println(POS.get(i));
-//	}
+		System.out.println(l.sistemaCantidadDeOrdenEconomica());
+
 	}
 }
