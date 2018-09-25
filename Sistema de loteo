@@ -1,0 +1,202 @@
+package modelo;
+
+import java.util.ArrayList;
+
+public class SistemaLoteo {
+	
+	//Quizá se puedan cambiar a enteros que representen la totalidad de cada periodo.
+	public static final String ANUAL = "Anual";
+	public static final String MENSUAL = "Mensual";
+	public static final String SEMANAL = "Semanal";
+	public static final String DIARIO = "Diario";
+	
+	//PENSAR EN MEJORES NOMBRE DESPUES
+	//Costos asociados
+	private double costoArticulo;
+	private double costoPreparacion;
+	private double costoMantenimiento;
+	
+	private ArrayList<Integer> articulosSemanales;
+	
+	public SistemaLoteo(double pCostosArticulo,double pCostoPreparacion,double pCostosMantenimiento,ArrayList<Integer> pArticulosSemanes){
+		
+		costoArticulo =pCostosArticulo;
+		costoPreparacion=pCostoPreparacion;
+		costoMantenimiento=pCostosMantenimiento;
+		articulosSemanales=pArticulosSemanes;
+		
+	}
+	
+//	public ArrayList<Integer> FOQ(int tiempo){
+//		
+//		ArrayList<Integer> resultado = new ArrayList<>();
+//		
+//		int contador =0;
+//		int cantidadPedir=0;
+//		for (int i = 0; i < ArticulosSemanales.size(); i++) {
+//			contador++;
+//			cantidadPedir+=ArticulosSemanales.get(i);
+//			if (contador==tiempo) {
+//				contador=0;
+//				resultado.add(cantidadPedir);
+//				cantidadPedir=0;
+//				
+//			} 
+//		}
+//		return resultado;
+//	}
+	
+	public ArrayList<Integer> sistemaLotePorLote(){
+		return articulosSemanales;
+	}
+	
+	public int sistemaCantidadDeOrdenEconomica() {
+		
+		// Pasamos de semanas a años
+		int totalArticulos =0;
+		for (int i = 0; i < articulosSemanales.size(); i++) {
+			totalArticulos+= articulosSemanales.get(i);
+		}
+		double D =((totalArticulos*1.0)/articulosSemanales.size())*(52);
+		
+		//encontramos el costo anual de mantemiento
+		double H=costoMantenimiento*costoArticulo*52;
+		double EOQ= Math.sqrt((2*D*costoPreparacion)/H);
+		
+		return (int)EOQ;
+	}
+	
+	public ArrayList<Integer> sistemaPeriodoDeSuministro(int t) {
+	
+		ArrayList<Integer> pedidos = new ArrayList<>();
+		int contador =0;
+		int sumaProductos = 0;
+		for (int i = 0; i <articulosSemanales.size(); i++) {
+			contador++;
+			sumaProductos=sumaProductos+articulosSemanales.get(i);
+			if(contador==t) {
+				contador=0;
+				pedidos.add(sumaProductos);
+				sumaProductos=0;
+			}else if (i==articulosSemanales.size()-1) {
+				pedidos.add(sumaProductos);
+			}
+		}
+		return pedidos;
+	}     
+	
+	//DEBO REVISAR
+//	public ArrayList<Integer> LUC(){
+//		
+//		boolean aplicaCostoMantener=false;
+//		ArrayList<Integer> diasPedidos= new ArrayList<>();
+//		int tamanoLote = articulosSemanales.get(0);
+//		double costoUnitario = (costoPreparacion)/tamanoLote;
+//		for (int i = 0; i <articulosSemanales.size(); i++) {
+//			
+//			double 	costoUnitario2 =0;
+//			if (aplicaCostoMantener) {
+//				costoUnitario2 = (costoPreparacion)/tamanoLote;
+//				costoUnitario=costoUnitario2;
+//			}else {
+//		     	costoUnitario2 = (costoPreparacion+(costoMantenimiento*costoArticulo*articulosSemanales.get(i)))/tamanoLote;
+//				
+//			}
+//			if (costoUnitario<costoUnitario2) {
+//				diasPedidos.add(i+1);
+//				tamanoLote=tamanoLote+ articulosSemanales.get(i);
+//				aplicaCostoMantener=true;
+//			}else {
+//				costoUnitario=costoUnitario2;
+//			}
+//		}
+//		return diasPedidos;
+//	}
+	
+	
+	/*revisar*/
+//	public ArrayList<Integer> sistemaMenorCostoUnitario(){
+//		ArrayList<Integer> retorno = new ArrayList<Integer>();
+//		double costoUnitarioAnterior = 0;
+//		int unidAcumuladas = 0;
+//		int contadorPeriodos = 1;
+//		for(int i = 0; i < articulosSemanales.size()-1; i++) {
+//			costoUnitarioAnterior = ((unidAcumuladas*costoMantenimiento)*1.0 + costoPreparacion)/articulosSemanales.get(i);
+//			unidAcumuladas += articulosSemanales.get(i+1);
+//			double costoUnitarioActual = ((unidAcumuladas*costoMantenimiento)*1.0 + costoPreparacion)/articulosSemanales.get(i+1);
+//			if(costoUnitarioActual > costoUnitarioAnterior) {
+//				for(int j = 0; j < contadorPeriodos; j++) {
+//					retorno.add()
+//				}
+//				contadorPeriodos = 0;				
+//			}else{
+//				contadorPeriodos++;
+//			}
+//		}
+//		return retorno;
+//	}
+	
+	public ArrayList<Integer> sistemaCantidadDeOrdenDePeriodo(){
+		ArrayList<Integer> retornoReves = new ArrayList<Integer>();
+		int demanda = 0;
+		for (int i = 0; i < articulosSemanales.size(); i++) {
+			demanda += articulosSemanales.get(i);
+		}
+		double frecienciaPedido = (demanda*1.0)/sistemaCantidadDeOrdenEconomica();		
+		int periodoOptimoPedido = (int) ((articulosSemanales.size()*1.0)/frecienciaPedido);
+		int cantidad = 0;
+		System.out.println(articulosSemanales.size()-1);
+		for(int j = articulosSemanales.size()-1; j >= 0; j--) {
+			cantidad += articulosSemanales.get(j);
+			if(j % periodoOptimoPedido == 0) {
+				retornoReves.add(cantidad);
+				cantidad = 0;
+			}else {
+				retornoReves.add(0);
+			}
+		}
+		ArrayList<Integer> retorno = new ArrayList<Integer>();
+		for(int i = retornoReves.size()-1; i >= 0; i--) {
+			retorno.add(retornoReves.get(i));
+		}
+		return retorno;
+	}
+	
+	public ArrayList<Integer> sistemaPorCostoTotalMinimo(){
+		ArrayList<Integer> retorno = new ArrayList<Integer>();
+		int cantidad = 0;
+		for(int i = 0; i < articulosSemanales.size(); i++) {
+			cantidad += articulosSemanales.get(i);
+			if(i != articulosSemanales.size()-1) {
+				if(Math.abs((articulosSemanales.get(i+1) * costoMantenimiento) - costoPreparacion) > 
+						Math.abs((articulosSemanales.get(i) * costoMantenimiento) - costoPreparacion)) {
+					retorno.add(cantidad);
+					cantidad = 0;
+				}
+			}else {
+				retorno.add(cantidad);
+			}
+		}
+		return retorno;
+	}
+	
+	public static void main (String[] arg0) {
+		//SE DEBE CONSIDERAR FORMATOS
+		ArrayList<Integer> pedidos = new ArrayList<>();
+		pedidos.add(50);
+		pedidos.add(60);
+		pedidos.add(70);
+		pedidos.add(60);
+		pedidos.add(95);
+		pedidos.add(75);
+		pedidos.add(60);
+		pedidos.add(55);
+		SistemaLoteo l = new SistemaLoteo(10, 47, 0.005, pedidos);
+		System.out.println(l.sistemaCantidadDeOrdenEconomica());	
+		//LUC TRAE PROBLEMAS...
+//	ArrayList<Integer>POS = l.LUC();
+//	for (int i = 0; i < POS.size(); i++) {
+//		System.out.println(POS.get(i));
+//	}
+	}
+}
