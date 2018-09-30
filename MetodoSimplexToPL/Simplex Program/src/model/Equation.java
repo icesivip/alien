@@ -1,6 +1,6 @@
 package model;
 
-public class Ecuation {
+public class Equation {
 	
 	public static final boolean OBJECTIVE= true;
 	public static final boolean RESTRICTION = false;
@@ -12,7 +12,7 @@ public class Ecuation {
 	 * pre: los simbolos, los coeficiente y los tipos de variables respectivamente vienen separados por espacios " "
 	 * @param ecua
 	 */
-	public Ecuation (String ecua) {
+	public Equation (String ecua) {
 		String[] SimbYNum = ecua.split(" ");
 		variables = new Variable[SimbYNum.length];
 		for (int i = 0; i < variables.length; i+=3) {
@@ -20,3 +20,6 @@ public class Ecuation {
 		}
 	}
 }
+
+
+//+ 1 z = + 2 x1 - 3 x2

@@ -18,6 +18,8 @@ public class SimplexInterface extends JFrame {
 	private int numberVariables;
 	private int numberConstraints;
 	private String objectiveCriterio;
+	private JLabel[] labss;
+	private JTextField[] txtss;
 	
 	public SimplexInterface() {
 		
@@ -59,6 +61,14 @@ public class SimplexInterface extends JFrame {
 		
 	}
 
-
+	public void iniciarRestricciones (int var, int restr) {
+		labss = new JLabel[var*restr];
+		txtss = new JTextField[var*restr];
+		for (int i = 0; i < labss.length; i++) {
+			for (int j = 0; j < restr; j++) {
+				
+			}
+		}
+	}
 	
 }
