@@ -8,6 +8,7 @@ package ui;
 import java.net.InterfaceAddress;
 import java.time.Clock;
 import java.util.Enumeration;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.TableColumnModelListener;
@@ -32,12 +33,18 @@ public class PanelSolution extends javax.swing.JPanel {
                 System.out.println(equations[i]);
         }
         //el +1 es para la Z y la constante
-       String [] nameVars = new String[nVariables];
+       String [] nameVars = new String[nVariables+1];
        String [] equation = equations[0].split(" ");
-            for (int j = 0; j < nVariables; j++) {
-                nameVars[j] = equation[j*2+2];
+            for (int j = 0; j <= nVariables; j++) {
+                nameVars[j] = equation[j*2+1];
             }
         TabMatrix = new JTable(equations.length, nVariables+2);
+        JTableHeader tableHeader = TabMatrix.getTableHeader();
+        TableColumnModel tableColumnModel = tableHeader.getColumnModel();
+         for (int j = 0; j < nameVars.length; j++) {
+                tableColumnModel.getColumn(j).setHeaderValue(nameVars[j]);
+            }
+                tableHeader.repaint();
         for (int i = 0; i < equations.length; i++) {
             equation = equations[i].split(" ");
             int j;
@@ -147,20 +154,27 @@ public class PanelSolution extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void butNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butNextActionPerformed
-        double[][] it = ui.nextIteration();
-        TabMatrix = new JTable(it.length, it[0].length+1);
+        double[][] itMatrix = ui.nextIteration();
+        TabMatrix = new JTable(itMatrix.length, itMatrix[0].length+1);
         JTableHeader tableHeader = TabMatrix.getTableHeader();
         TableColumnModel tableColumnModel = tableHeader.getColumnModel();
-        TableColumn tableColumn = tableColumnModel.getColumn(0);
-        tableColumn.setHeaderValue( "pruebita" );
-        tableHeader.repaint();
-        for (int i = 0; i < it.length; i++) {
-            int j;
-            for (j = 1; j < it[0].length; j++) {
-                TabMatrix.setValueAt(it[i][j], i, j);
+        String[] varNames = ui.getVarNames();
+        tableColumnModel.getColumn(0).setHeaderValue("Z");
+         for (int j = 1; j < itMatrix[0].length; j++) {
+                tableColumnModel.getColumn(j).setHeaderValue(varNames[j-1]);
+            }
+                tableHeader.repaint();
+                TabMatrix.setValueAt(1.00, 0, 0);
+        for (int i = 0; i < itMatrix.length; i++) {
+            if(i>0)
+                TabMatrix.setValueAt(0, i, 0);
+            for (int j = 1; j < TabMatrix.getColumnCount(); j++) {
+                TabMatrix.setValueAt(itMatrix[i][j-1], i, j);
             }
         }
         jScrollPane1.setViewportView(TabMatrix);
+        if(ui.getResultType() != null)
+            JOptionPane.showMessageDialog(this, ui.getResultType());
     }//GEN-LAST:event_butNextActionPerformed
 
 

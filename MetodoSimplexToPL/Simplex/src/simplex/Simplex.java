@@ -42,34 +42,17 @@ public class Simplex implements Solver{
         private Matrix Final;
         
         private int nVarDecision;
+        private Solution solution;
+        private String messageSolution;
         
         public Simplex(String opti, String[] equations) {
         String [] caracteres = equations[0].split(" ");
 //      -2 del 1 z y -2 del = C. No se divide entre 2 por las variables de holgura
         nVarDecision = caracteres.length/2-2;
-        Variable[] vars = new Variable[nVarDecision];
-        double [] pesos = new double[nVarDecision];
-            for (int i = 0; i < nVarDecision; i++) {
-                vars[i] = new Variable(caracteres[(i*2)+1], Variable.CONTINUOUS);
-                pesos[i] = Double.parseDouble(caracteres[i*2]);
-            }
-//            for (int i = 1; i < equations.length; i++) {
-//                caracteres = equations[i].split(" ");
-////                -2 del 1 z y -2 del ><= Constante
-//                Variable[] vars = new Variable[caracteres.length/2-2];
-//                int j;
-//                for (j = 0; j < caracteres.length-1; j++) {
-//                    vars[j] = new Variable(caracteres[j*2+3], Integer.parseInt(caracteres[j*2+2]), true);
-//                }
-//                model.addConstraint(new Constraint(vars,caracteres[j+1]));
-//            }
-            if(Model.MAXIMIZE.equalsIgnoreCase(opti))
-                model = new Model(vars, pesos, Model.MAXIMIZE);
-            else model = new Model(vars, pesos, Model.MINIMIZE);
-            generateEquaAndFOMatries(equations);
+        
+            generateEquaAndFOMatries(equations, opti);
             generateConstraintsLeftMatrix(equations, model.getType().equals(Model.MAXIMIZE));
-            calculateInitialBase();
-            internalteration(model.getType().equals(Model.MAXIMIZE));
+            solve(model);
 //            System.out.print(isMaximization);
         }
             
@@ -78,10 +61,41 @@ public class Simplex implements Solver{
          * @return Una matriz completa que corresponde al resultado de la iteración
          */
         public double[][] nextIteration () {
-            if(quotientTest(Final))
+            if(quotientTest()){
              internalteration(model.getType().equals(Model.MAXIMIZE));
-            else if(isFactibleSolution())
              Final.print(2,2);
+            }
+            else {
+           double[][] array = Final.getMatrix(0, Final.getRowDimension()-1, 0, Final.getColumnDimension()-2).getArray();
+           double[] valuesSolution = new double[array[0].length];
+           for (int i = 0; i < array.length; i++) {
+               for (int j = 0; j < array[0].length; j++) {
+                   if(array[i][j] == 1) {
+                       boolean isBasic = true;
+                       for (int k = 0; k < array.length; k++) {
+                           if(array[k][j] != 0 && k != i){
+                               isBasic = false;
+                               break;
+                           }
+                       }
+                       if(isBasic)
+                           valuesSolution[j] = Final.getArray()[i][Final.getColumnDimension()-1];
+                   }
+               }
+           }
+           System.out.print("solución valores ");
+           for (int i = 0; i < valuesSolution.length; i++) {
+                System.out.print(valuesSolution[i] + " ");
+            }
+                solution = new Solution(model, valuesSolution);
+                try {
+            messageSolution = findKindOfSolution();
+//            System.out.println(messageSolution);
+        } catch (Exception ex) {
+            Logger.getLogger(Simplex.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            }
+            Final.print(2, 2);
              return Final.getArray();
         }
         
@@ -106,9 +120,9 @@ public class Simplex implements Solver{
                    }
                }
            }
-           for (int i = 0; i < Base.length; i++) {
-                System.out.println(Base[i]);
-            }
+//           for (int i = 0; i < Base.length; i++) {
+//                System.out.println(Base[i]);
+//            }
        }
        
        /**
@@ -124,18 +138,18 @@ public class Simplex implements Solver{
              double[][] Tabla = new double [TAB.getRowDimension()+1][TAB.getColumnDimension()+1];
  
              for (int j = 0; j<TAB.getColumnDimension(); j++){
-                    Tabla[0][j] = Fila_z.getArray()[0][j];                             
+                    Tabla[0][j] = Math.round(Fila_z.getArray()[0][j] * 100d) / 100d;                             
              }
              Tabla[0][TAB.getColumnDimension()] = z_v.getArray()[0][0];
  
              for (int i = 0; i<TAB.getRowDimension(); i++){
                     for (int j = 0; j<TAB.getColumnDimension(); j++){
-                           Tabla[i+1][j] = TAB.getArray()[i][j];                              
+                           Tabla[i+1][j] = Math.round(TAB.getArray()[i][j]* 100d) / 100d;                              
                     }
              }
  
              for (int i = 0; i<TAB.getRowDimension(); i++){
-                    Tabla[i+1][TAB.getColumnDimension()] = X_B.getArray()[i][0];                                         
+                    Tabla[i+1][TAB.getColumnDimension()] = Math.round(X_B.getArray()[i][0]* 100d) / 100d;                                         
              }
              Matrix Tabla1 = new Matrix(Tabla);
              return Tabla1;
@@ -186,8 +200,9 @@ public class Simplex implements Solver{
         for (int i = 1; i < equations.length; i++) {
                 String[] caracteres = equations[i].split(" ");
                 double[] equation = new double[nVarDecision + equations.length-1 + ExcessVarsPos.size()];
-                int j = 2;
+                int j;
                 for (j = 0; j < nVarDecision; j++) {
+//                  el +2 omite la Z que le entra por parámetro  
                     equation[j] = Double.parseDouble(caracteres[j*2+2]);
                 }
                 try {
@@ -200,24 +215,25 @@ public class Simplex implements Solver{
                         isBigM = true;
                         if(isMax)
                             FObj.getArray()[i + nVarDecision-1][0] *= -1;
-                        toEnter.add(new Variable("A", Variable.CONTINUOUS));
-                        valuesTE.add(FObj.getArray()[i + nVarDecision-1][0]);
+                        model.addVariable("A" + i, Variable.CONTINUOUS, FObj.getArray()[i + nVarDecision-1][0]);
+                        toEnter.add(new Variable("E"+ i, Variable.CONTINUOUS));
+                        valuesTE.add(0.0);
                     }
-                    if(EqualityConstPos.contains(i)){
+                    else if(EqualityConstPos.contains(i)){
                         FObj.getArray()[i + nVarDecision-1][0] = BIG_M;
                         isBigM = true;
                         if(isMax)
                             FObj.getArray()[i + nVarDecision-1][0] *= -1;
-                        model.addVariable("A", Variable.CONTINUOUS, FObj.getArray()[i + nVarDecision-1][0]);
+                        model.addVariable("A"+ i, Variable.CONTINUOUS, FObj.getArray()[i + nVarDecision-1][0]);
                     } else {
-                        model.addVariable("S", Variable.CONTINUOUS, 0);
+                        model.addVariable("S"+ i, Variable.CONTINUOUS, 0);
                          }
                         } catch (Exception ex) {
                             Logger.getLogger(Simplex.class.getName()).log(Level.SEVERE, null, ex);
                         }
                 slackPos++;
                 matr[i-1] = equation;
-            }
+                }
         for (int i = 0; i < toEnter.size(); i++) {
             try {
                 model.addVariable(toEnter.get(i).getName(), toEnter.get(i).getType(), valuesTE.get(i));
@@ -225,53 +241,63 @@ public class Simplex implements Solver{
                 Logger.getLogger(Simplex.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        for (int i = 0; i < matr.length; i++) {
+            String[] caracteres = equations[i+1].split(" ");
+            model.addConstraint(matr[i], caracteres[caracteres.length-2], Double.parseDouble(caracteres[caracteres.length-1]), "name?");
+            }
 //            System.out.println("cantidad de variables"+toEnter.size() + " <- holgura negativos" + model.getVariableCount());
             ConsLeft = new Matrix(matr);
             if(isBigM){
                 enlargeFO(ExcessVarsPos.size());
                 normalizeBigM(ExcessVarsPos.size() + EqualityConstPos.size(), equations);
             }
-            return isBigM;
+            System.out.println(model.toString());
 //            System.out.println("Constantes izquierda");
 //            ConsLeft.print(2,2);
+            return isBigM;
     }
 
-    private void generateEquaAndFOMatries(String[] equations) {
+    private void generateEquaAndFOMatries(String[] equations, String opti) {
         String[] objective = equations[0].split(" ");
-        int nVarDecision = objective.length/2-2;
         double[][] toFO = new double[equations.length-1 + nVarDecision][1];
-//        double[] intoC = new double[nVarDecision + equations.length-1];
-        for (int i = 0; i < nVarDecision; i++) {
-            toFO[i][0] = Double.parseDouble(objective[i*2+2]) * (-1);
+        Variable[] vars = new Variable[nVarDecision];
+        double [] pesos = new double[nVarDecision];
+        String[] caracteres = equations[0].split(" ");
+            
+        for (int i = 1; i <= nVarDecision; i++) {
+            toFO[i-1][0] = Double.parseDouble(objective[i*2]) * (-1);
+            vars[i-1] = new Variable(caracteres[(i*2)+1], Variable.CONTINUOUS);
+            pesos[i-1] = toFO[i-1][0];
         }
-//        toC[0] = intoC;
+        if(Model.MAXIMIZE.equalsIgnoreCase(opti))
+                model = new Model(vars, pesos, Model.MAXIMIZE);
+            else model = new Model(vars, pesos, Model.MINIMIZE);
+        
         FObj = new Matrix(toFO);
-        FObj.print(2, 2);
-//        double[] intob = new double[equations.length-1];
-        double[][] tob = new double[equations.length-1][1];
+//        FObj.print(2, 2);
+        double[][] toEqua = new double[equations.length-1][1];
+        
         for (int i = 1; i < equations.length; i++) {
-            String[] caracteres = equations[i].split(" ");
-            tob[i-1][0] = Double.parseDouble(caracteres[caracteres.length-1]);
+            caracteres = equations[i].split(" ");
+            toEqua[i-1][0] = Double.parseDouble(caracteres[caracteres.length-1]);
         }
-//        tob[0] = intob;
-        equalities = new Matrix(tob);
-        System.out.println("igualdades:");
-        equalities.print(2, 2);
+        equalities = new Matrix(toEqua);
+//        System.out.println("igualdades:");
+//        equalities.print(2, 2);
     }
 
-        private boolean quotientTest(Matrix last) {
-        last.print(2, 2);
-        Matrix leftC = last.getMatrix(1, last.getRowDimension()-1, 0, last.getColumnDimension()-2);
+        private boolean quotientTest() {
+        Matrix leftC = Final.getMatrix(1, Final.getRowDimension()-1, 0, Final.getColumnDimension()-2);
         double[][] matr = leftC.getArray();
         boolean procd = false;
-        Matrix equality = last.getMatrix(1, last.getRowDimension()-1, last.getColumnDimension()-1, last.getColumnDimension()-1);
-        Matrix eObjective = last.getMatrix(0, 0, 0, last.getColumnDimension()-2).transpose();
+        Matrix equality = Final.getMatrix(1, Final.getRowDimension()-1, Final.getColumnDimension()-1, Final.getColumnDimension()-1);
+        Matrix eObjective = Final.getMatrix(0, 0, 0, Final.getColumnDimension()-2).transpose();
         double[][] eObjec = eObjective.getArray();
         double [][] igualdad = equality.getArray();
         double masGrande = 0;
         int posMasG = -1;
         for (int i = 0; i < eObjec.length; i++) {
-            if((eObjec[i][0] < 0 && model.getType().equals(Model.MAXIMIZE)) || (eObjec[i][0] > 0 && !model.getType().equals(Model.MAXIMIZE))){
+            if((eObjec[i][0] < 0 && model.getType().equals(Model.MAXIMIZE) && eObjec[i][0] < masGrande) || (eObjec[i][0] > 0 && !model.getType().equals(Model.MAXIMIZE)&& eObjec[i][0] > masGrande)){
                 masGrande = eObjec[i][0];
                 posMasG = i;
             }
@@ -283,15 +309,15 @@ public class Simplex implements Solver{
         int posLow = -1;
         if(procd){
         for (int i = 0; i < Base.length; i++) {
-            System.out.println(posMasG);
             theta[i] = igualdad[i][0] / matr[i][posMasG];
-            System.out.println(theta[i]);
             if(rowLow>theta[i] && theta[i] > 0){
                 rowLow = theta[i];
                 posLow = i;
             }
         }
+        if(posLow != -1)
         Base[posLow] = posMasG;
+        else procd = false;
         for (int i = 0; i < Base.length; i++) {
                 System.out.println(Base[i]);
             }
@@ -299,14 +325,31 @@ public class Simplex implements Solver{
         return procd;
     }
     public static void main(String[] args) {
+//        Problema normi
 //        Simplex s = new Simplex("MAXIMIZE", new String[] {"1 Z -3 X1 -5 X2 = 0",
 //                                           "0 Z 1 X1 0 X2 <= 4",
 //                                           "0 Z 0 X1 2 X2 <= 12",
 //                                           "0 Z 3 X1 2 X2 <= 18"});
-        Simplex s = new Simplex("MINIMIZE", new String[] {"1 Z -2 X1 -3 X2 = 0",
-                                           "0 Z 0.5 X1 0.25 X2 <= 4",
-                                           "0 Z 1 X1 3 X2 >= 20",
-                                           "0 Z 1 X1 1 X2 = 10"});
+//           Gran M method
+//           Simplex s = new Simplex("MINIMIZE", new String[] {"1 Z -2 X1 -3 X2 = 0",
+//                                           "0 Z 0.5 X1 0.25 X2 <= 4",
+//                                           "0 Z 1 X1 3 X2 >= 20",
+//                                           "0 Z 1 X1 1 X2 = 10"});
+//          Solución no factible
+//          Simplex s = new Simplex("MINIMIZE", new String[] {"1 Z -2 X1 -3 X2 = 0",
+//                                           "0 Z 0.5 X1 0.25 X2 <= 4",
+//                                           "0 Z 1 X1 3 X2 >= 36",
+//                                           "0 Z 1 X1 1 X2 = 10"});
+//            Problema no acotado
+//              Simplex s = new Simplex("MAXIMIZE", new String[] {"1 Z -36 X1 -30 X2 3 X3 4 X4 = 0",
+//                                           "0 Z 1 X1 1 X2 -1 X3 0 X4 <= 5",
+//                                           "0 Z 6 X1 5 X2 0 X3 -1 X4 <= 10"});
+//             Infinitas soluciones
+            Simplex s = new Simplex("MAXIMIZE", new String[] {"1 Z -60 X1 -35 X2 -20 X3 = 0",
+                                           "0 Z 8 X1 6 X2 1 X3 <= 48",
+                                           "0 Z 4 X1 2 X2 1.5 X3 <= 20",
+                                           "0 Z 2 X1 1.5 X2 0.5 X3 <= 8",
+                                            "0 Z 0 X1 1 X2 0 X3 <= 5"});
     }
 
     private ArrayList <Integer> calculatePosExcess(String[] equations) {
@@ -343,15 +386,9 @@ public class Simplex implements Solver{
         for (int i = 0; i < FObj.getRowDimension(); i++) {
             newFO[i][0] = oldFO[i][0];
         }
-//        for (int i = 0; i < excess; i++) {
-//            try {
-//                model.addVariable("S", Variable.CONTINUOUS, 0);
-//            } catch (Exception ex) {
-//                Logger.getLogger(Simplex.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
         FObj = new Matrix(newFO);
-        FObj.print(2, 2);
+//        System.out.println("FO expandido:");
+//        FObj.print(2, 2);
         }
 
     private void internalteration(boolean isMax) {
@@ -365,14 +402,44 @@ public class Simplex implements Solver{
         Final = CrearTabla(TAB, X_B, Fila_z, z_v);
     }
 
-    private boolean isFactibleSolution() {
-        
-        return false;
-    }
-
     @Override
     public Solution solve(Model model) {
         
-        return null;
+        calculateInitialBase();
+        internalteration(model.getType().equals(Model.MAXIMIZE));
+//        double[][] finalFinal = null;
+//        double[][] sig = nextIteration();
+//        while(finalFinal != sig){
+//            finalFinal = sig;
+//            sig = nextIteration();
+//        }
+        return solution;
+    }
+
+    private String findKindOfSolution() throws Exception {
+        model.isFeasibleSolution(solution);
+        for (int i = 0; i < FObj.getArray().length; i++) {
+            if(model.getVariableAt(i).getName().startsWith("A"))
+                if(solution.getVariableValue(model.getVariableAt(i)) != 0){
+                    return "Solution not feasible";
+                }
+            if(model.getVariableAt(i).getName().startsWith("X"))
+                if(solution.getVariableValue(model.getVariableAt(i)) == 0)
+                    return "Infinite solutions!";
+            if((model.getType().equals(Model.MAXIMIZE) && Final.getArray()[0][i] <0) || (model.getType().equals(Model.MINIMIZE) && Final.getArray()[0][i] > 0))
+                return "Solution not bounded";
+        }
+        return "Problem finished";
+    }
+    
+    public String getMessageSol() {
+        return messageSolution;
+    }
+    
+    public String[] getEveryVariableName() {
+        String[] vars = new String[model.getVariableCount()];
+        for (int i = 0; i < model.getVariableCount(); i++) 
+            vars[i] = model.getVariableAt(i).getName();
+        return vars;
     }
 }

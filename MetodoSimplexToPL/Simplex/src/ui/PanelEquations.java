@@ -18,6 +18,7 @@ import javax.swing.*;
 public class PanelEquations extends JPanel implements ActionListener {
 
     private LinealProgrammingInterface ui;
+    String title;
     private JButton[] butsAdd;
     private JPanel[] panIzq;
     private JComboBox[] combSymbols;
@@ -196,6 +197,7 @@ public class PanelEquations extends JPanel implements ActionListener {
         ui.InitializeProcess(equations, butOptimize.getText());
         JFrame ventana = new JFrame();
         ventana.setVisible(true);
+        ventana.setTitle(enVista.getTitle());
         enVista.setVisible(false);
         ventana.add(panelS);
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -223,10 +225,12 @@ public class PanelEquations extends JPanel implements ActionListener {
                 String variable = (String) JOptionPane.showInputDialog(this, "Choose the variable", "Add Variable", JOptionPane.DEFAULT_OPTION, null, vars, null);
 //                maximo de 9 restricciones verificar funcionamiento
 //                toma el último número de la variable ID
+                if(variable != null){
                 String col = variable.charAt(variable.length() - 1) + "";
                 panConstraints[i][Integer.parseInt(col) - 1] = new PanelVariable(variable);
                 panIzq[i].add(panConstraints[i][Integer.parseInt(col) - 1]);
                 validate();
+                }
             }
 
         }

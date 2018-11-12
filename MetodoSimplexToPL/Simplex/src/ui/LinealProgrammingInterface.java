@@ -7,7 +7,6 @@ package ui;
 
 import java.awt.Frame;
 import javax.swing.JFrame;
-import model.Model;
 import simplex.*;
 
 /**
@@ -159,12 +158,18 @@ public class LinealProgrammingInterface extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     void InitializeProcess(String[] equations, String opti) {
-       if(opti.equals("Maximize"))
-           simplex = new Simplex(Model.MAXIMIZE, equations);
-       else simplex = new Simplex(Model.MINIMIZE, equations);
+           simplex = new Simplex(opti, equations);
     }
 
     double[][] nextIteration() {
         return simplex.nextIteration();
+    }
+    
+    public String getResultType() {
+        return simplex.getMessageSol();
+    }
+    
+    public String[] getVarNames() {
+        return simplex.getEveryVariableName();
     }
 }
