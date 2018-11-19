@@ -12,6 +12,7 @@ public class MasterPlanSchedule {
 	public static final String COSTO_TOTAL_MINIMO = "";
 	
 	public static final String ANUAL = "Anual";
+	public static final String ALGO = "";
 	public static final String MENSUAL = "Mensual";
 	public static final String SEMANAL = "Semanal";
 	public static final String DIARIO = "Diario";
