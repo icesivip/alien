@@ -19,7 +19,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.StageStyle;
-import modelo.LotSizingMethods;
+import model.OldLotSizingMethods;
 
 public class ContainerController implements Initializable{
 
@@ -50,12 +50,12 @@ public class ContainerController implements Initializable{
 @FXML private Label LbAnswer;
 @FXML private GridPane gpOrdersInTime;
 	
-    private LotSizingMethods lotSizingRules;
+    private OldLotSizingMethods lotSizingRules;
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     	TextFRequest = new ArrayList<TextField>();
-//    	gpOrdersInTime.setAl(Pos.CENTER);
+    	
     }
     
     @FXML
@@ -75,8 +75,9 @@ public class ContainerController implements Initializable{
     void inicializarSistema() {
     	double costoArticulo = Double.parseDouble(TextFCostArticle.getText());
 		double costoPreparacion = Double.parseDouble(TextFCostPrepare.getText());
+		
 		double costoMantenimiento = Double.parseDouble(TextFCostMaintenance.getText());
-		lotSizingRules = new LotSizingMethods(costoArticulo, costoPreparacion, costoMantenimiento, LotSizingMethods.UNKNOWN);
+		lotSizingRules = new OldLotSizingMethods(costoArticulo, costoPreparacion, costoMantenimiento, OldLotSizingMethods.UNKNOWN);
 		for(int i = 0; i < TextFRequest.size(); i++) {
 			lotSizingRules.agregarPedido(Integer.parseInt(TextFRequest.get(i).getText()));
 		}

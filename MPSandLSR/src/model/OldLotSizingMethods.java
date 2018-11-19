@@ -1,8 +1,8 @@
-package modelo;
+package model;
 
 import java.util.ArrayList;
 
-public class LotSizingMethods {
+public class OldLotSizingMethods {
 
 	// Quizá se puedan cambiar a enteros que representen la totalidad de cada
 	// periodo.
@@ -23,7 +23,7 @@ public class LotSizingMethods {
 	private ArrayList<Integer> articulosSemanales;
 	private ArrayList<Integer> planPedidos;
 
-	public LotSizingMethods(double pCostosArticulo, double pCostoPreparacion, double pCostosMantenimiento,
+	public OldLotSizingMethods(double pCostosArticulo, double pCostoPreparacion, double pCostosMantenimiento,
 			ArrayList<Integer> pArticulosSemanes, String pPeriodicidad) {
 
 		costoArticulo = pCostosArticulo;
@@ -35,7 +35,7 @@ public class LotSizingMethods {
 
 	}
 	
-	public LotSizingMethods(double pCostosArticulo, double pCostoPreparacion, double pCostosMantenimiento, String pPeriodicidad) {
+	public OldLotSizingMethods(double pCostosArticulo, double pCostoPreparacion, double pCostosMantenimiento, String pPeriodicidad) {
 
 		costoArticulo = pCostosArticulo;
 		costoPreparacion = pCostoPreparacion;
@@ -278,7 +278,7 @@ public class LotSizingMethods {
 		pedidos.add(188);
 		pedidos.add(161);
 		pedidos.add(170);
-		LotSizingMethods l = new LotSizingMethods(10.0, 250.0, 0.5, pedidos, SEMANAL);
+		OldLotSizingMethods l = new OldLotSizingMethods(10.0, 250.0, 0.5, pedidos, SEMANAL);
 		
 //		pedidos.add(50);
 //		pedidos.add(60);
