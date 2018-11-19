@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class MasterPlanSchedule {
 	
-	public static final String LOTEXLOTE = "";
+	public static final String LOTXLOT = "";
 	public static final String CANTIDAD_ORDEN_ECONOMICO = "";
 	public static final String PERIODO_DE_SUMINISTRO = "";
 	public static final String CANTIDAD_ORDEN_PERIODO = "";
