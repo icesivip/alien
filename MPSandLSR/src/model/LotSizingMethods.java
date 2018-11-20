@@ -4,151 +4,216 @@ import java.util.ArrayList;
 
 public class LotSizingMethods {
 
-	public ArrayList<Integer> sistemaLotePorLote(ArrayList<Integer> articulosSemanales) {
-		return articulosSemanales;
+	/**
+	 * calculate all net requirements to ordering in all t times using Lot x Lot method.
+	 * <p>
+	 * @param  ArrayList<Integer> with the quantities of weekly articles or items.
+	 * @return	ArrayList<Integer> arrayList with all the net requirements to ordering in all t times.
+	 */
+	public ArrayList<Integer> systemLotXLot(ArrayList<Integer> weeklyArticles) {
+		return weeklyArticles;
 	}
 	
-	public ArrayList<Integer> sistemaCantidadDeOrdenEconomica(ArrayList<Integer> articulosSemanales, double costoArticulo, double costoPreparacion, double costoMantenimiento){
-		int EOQ = (int) calcularCantidadDeOrdenEconomica(articulosSemanales, costoArticulo, costoPreparacion, costoMantenimiento);
-		ArrayList<Integer> retorno = new ArrayList<>();
-		int cantidad = 0;
-		retorno.add(EOQ);
-		for(int i = 0; i < articulosSemanales.size(); i++) {
-			cantidad += articulosSemanales.get(i);
-			if(cantidad >= EOQ) {
-				retorno.add(EOQ);
-				cantidad = articulosSemanales.get(i);
+	/**
+	 * calculate all net requirements to ordering in all t times using Economic Order Quantiy method.
+	 * <p>
+	 * @param  ArrayList<Integer>: list with the quantities of weekly articles or items.
+	 * @param  double: unit cost of articles into the list.
+	 * @param  double: cost to prepare or order all articles into the list.
+	 * @param  double: cost to maintenance all articles into the list.
+	 * @return	ArrayList<Integer> arrayList with all the net requirements to ordering in all t times.
+	 */
+	public ArrayList<Integer> systemEconomicOrderQuantiy(ArrayList<Integer> weeklyArticles, double itemCost, double preparationCost, double maintenanceCost){
+		int EOQ = (int) calculateEconomicOrderQuantity(weeklyArticles, itemCost, preparationCost, maintenanceCost);
+		ArrayList<Integer> result = new ArrayList<>();
+		int quantity = 0;
+		result.add(EOQ);
+		for(int i = 0; i < weeklyArticles.size(); i++) {
+			quantity += weeklyArticles.get(i);
+			if(quantity >= EOQ) {
+				result.add(EOQ);
+				quantity = weeklyArticles.get(i);
 			}else if(i != 0){
-				retorno.add(0);
+				result.add(0);
 			}
 		}
-		return retorno;
+		return result;
 	}
 
-	public double calcularCantidadDeOrdenEconomica(ArrayList<Integer> articulosSemanales, double costoArticulo, double costoPreparacion, double costoMantenimiento) {
+	/**
+	 * calculate all net requirements to ordering in all t times using Economic Order Quantity method.
+	 * <p>
+	 * @param  ArrayList<Integer>: list with the quantities of weekly articles or items.
+	 * @param  double: unit cost of articles into the list.
+	 * @param  double: cost to prepare or order all articles into the list.
+	 * @param  double: cost to maintenance all articles into the list.
+	 * @return	ArrayList<Integer> arrayList with all the net requirements to ordering in all t times.
+	 */
+	public double calculateEconomicOrderQuantity(ArrayList<Integer> weeklyArticles, double itemCost, double preparationCost, double maintenanceCost) {
 
-		// Pasamos de semanas a años
-		int totalArticulos = 0;
-		for (int i = 0; i < articulosSemanales.size(); i++) {
-			totalArticulos += articulosSemanales.get(i);
+		// we past from week to years
+		int totalItems = 0;
+		for (int i = 0; i < weeklyArticles.size(); i++) {
+			totalItems += weeklyArticles.get(i);
 		}
-		double D = ((totalArticulos * 1.0) / articulosSemanales.size()) * (52);
+		double D = ((totalItems * 1.0) / weeklyArticles.size()) * (52);
 
-		// encontramos el costo anual de mantemiento
-		double H = costoMantenimiento * costoArticulo * 52;
-		double EOQ = Math.sqrt((2 * D * costoPreparacion) / H);
+		//found the anuual maintenance cost
+		double H = maintenanceCost * itemCost * 52;
+		double EOQ = Math.sqrt((2 * D * preparationCost) / H);
 
 		return EOQ;
 	}
 
-	public ArrayList<Integer> sistemaPeriodoDeSuministro(int t, ArrayList<Integer> articulosSemanales) {
+	/**
+	 * calculate all net requirements to ordering in all t times using Periods Of Supplymethod.
+	 * <p>
+	 * @param  int: amount of times to do a order.
+	 * @param  ArrayList<Integer>: list with the quantities of weekly articles or items.
+	 * @return	ArrayList<Integer> arrayList with all the net requirements to ordering in all t times.
+	 */
+	public ArrayList<Integer> systemPeriodsOfSupply(int t, ArrayList<Integer> weeklyArticles) {
 
-		ArrayList<Integer> pedidos = new ArrayList<Integer>();
-		int contador = 0;
-		int sumaProductos = 0;
-		for (int i = 0; i < articulosSemanales.size(); i++) {
-			contador++;
-			sumaProductos = sumaProductos + articulosSemanales.get(i);
-			if (contador == t) {
-				contador = 0;
-				pedidos.add(sumaProductos);
-				sumaProductos = 0;
-			} else if (i == articulosSemanales.size() - 1) {
-				pedidos.add(sumaProductos);
+		ArrayList<Integer> orders = new ArrayList<Integer>();
+		int counter = 0;
+		int sumProducts = 0;
+		for (int i = 0; i < weeklyArticles.size(); i++) {
+			counter++;
+			sumProducts = sumProducts + weeklyArticles.get(i);
+			if (counter == t) {
+				counter = 0;
+				orders.add(sumProducts);
+				sumProducts = 0;
+			} else if (i == weeklyArticles.size() - 1) {
+				orders.add(sumProducts);
 			}
 		}
-		return pedidos;
+		return orders;
 	}
 
-	public ArrayList<Integer> sistemaCantidadDeOrdenDePeriodo(ArrayList<Integer> articulosSemanales, double costoArticulo, double costoPreparacion, double costoMantenimiento) {
-		ArrayList<Integer> retornoReves = new ArrayList<Integer>();
-		int demanda = 0;
-		for (int i = 0; i < articulosSemanales.size(); i++) {
-			demanda += articulosSemanales.get(i);
+	/**
+	 * calculate all net requirements to ordering in all t times using Period Order Quantity method.
+	 * <p>
+	 * @param  ArrayList<Integer>: list with the quantities of weekly articles or items.
+	 * @param  double: unit cost of articles into the list.
+	 * @param  double: cost to prepare or order all articles into the list.
+	 * @param  double: cost to maintenance all articles into the list.
+	 * @return	ArrayList<Integer> arrayList with all the net requirements to ordering in all t times.
+	 */
+	public ArrayList<Integer> systemPeriodOrderQuantity(ArrayList<Integer> weeklyArticles, double itemCost, double preparationCost, double maintenanceCost) {
+		ArrayList<Integer> returnReves = new ArrayList<Integer>();
+		int demand = 0;
+		for (int i = 0; i < weeklyArticles.size(); i++) {
+			demand += weeklyArticles.get(i);
 		}
-		double frecienciaPedido = (demanda * 1.0) / calcularCantidadDeOrdenEconomica(articulosSemanales, costoArticulo, costoPreparacion, costoMantenimiento);
-		int periodoOptimoPedido = (int) ((articulosSemanales.size() * 1.0) / frecienciaPedido);
-		int cantidad = 0;
-		System.out.println(articulosSemanales.size() - 1);
-		for (int j = articulosSemanales.size() - 1; j >= 0; j--) {
-			cantidad += articulosSemanales.get(j);
-			if (j % periodoOptimoPedido == 0) {
-				retornoReves.add(cantidad);
-				cantidad = 0;
+		double frequencyRequested = (demand * 1.0) / calculateEconomicOrderQuantity(weeklyArticles, itemCost, preparationCost, maintenanceCost);
+		int optimalPeriodRequested = (int) ((weeklyArticles.size() * 1.0) / frequencyRequested);
+		int quantity = 0;
+		System.out.println(weeklyArticles.size() - 1);
+		for (int j = weeklyArticles.size() - 1; j >= 0; j--) {
+			quantity += weeklyArticles.get(j);
+			if (j % optimalPeriodRequested == 0) {
+				returnReves.add(quantity);
+				quantity = 0;
 			} else {
-				retornoReves.add(0);
+				returnReves.add(0);
 			}
 		}
-		ArrayList<Integer> retorno = new ArrayList<Integer>();
-		for (int i = retornoReves.size() - 1; i >= 0; i--) {
-			retorno.add(retornoReves.get(i));
+		ArrayList<Integer> result = new ArrayList<Integer>();
+		for (int i = returnReves.size() - 1; i >= 0; i--) {
+			result.add(returnReves.get(i));
 		}
-		return retorno;
+		return result;
 	}
 	
-	public ArrayList<Integer> sistemaPorMenorCostoUnitario(ArrayList<Integer> articulosSemanales, double costoPreparacion, double costoMantenimiento) {
-		ArrayList<Integer> retorno = new ArrayList<Integer>();
-		int cantidad = 0;
-		int vecesAlmacenada = 0;
-		int unidadesAlmacenadas = 0;
-		int ultimaVez = 0;
-		for(int i = 0; i < articulosSemanales.size(); i++) {
-			cantidad += articulosSemanales.get(i);
-			unidadesAlmacenadas += articulosSemanales.get(i) * vecesAlmacenada;
-			double costoUnitario = (costoPreparacion + (costoMantenimiento * (unidadesAlmacenadas*1.0)))/(cantidad*1.0);
-			if(i != articulosSemanales.size()-1) {
-				int unidadesAlmacenadasNext = unidadesAlmacenadas + (articulosSemanales.get(i+1)*(vecesAlmacenada+1)); 
-				double costoUnitarioNext = (costoPreparacion + (costoMantenimiento * (unidadesAlmacenadasNext*1.0)))/((cantidad+articulosSemanales.get(i+1))*1.0);
-				if(costoUnitarioNext > costoUnitario) {
-					auxActualizarLista(retorno, ultimaVez, i, cantidad);
-					cantidad = 0;
-					unidadesAlmacenadas = 0;
-					vecesAlmacenada = 0;
-					ultimaVez = i+1;
+	/**
+	 * calculate all net requirements to ordering in all t times using Least Unit Cost method.
+	 * <p>
+	 * @param  ArrayList<Integer>: list with the quantities of weekly articles or items.
+	 * @param  double: cost to prepare or order all articles into the list.
+	 * @param  double: cost to maintenance all articles into the list.
+	 * @return	ArrayList<Integer> arrayList with all the net requirements to ordering in all t times.
+	 */
+	public ArrayList<Integer> systemLeastUnitCost(ArrayList<Integer> weeklyArticles, double preparationCost, double maintenanceCost) {
+		ArrayList<Integer> result = new ArrayList<Integer>();
+		int quantity = 0;
+		int StoredTimes = 0;
+		int storedUnits = 0;
+		int lastTime = 0;
+		for(int i = 0; i < weeklyArticles.size(); i++) {
+			quantity += weeklyArticles.get(i);
+			storedUnits += weeklyArticles.get(i) * StoredTimes;
+			double UnitCost = (preparationCost + (maintenanceCost * (storedUnits*1.0)))/(quantity*1.0);
+			if(i != weeklyArticles.size()-1) {
+				int nextStoredUnits = storedUnits + (weeklyArticles.get(i+1)*(StoredTimes+1)); 
+				double nextUnitCost = (preparationCost + (maintenanceCost * (nextStoredUnits*1.0)))/((quantity+weeklyArticles.get(i+1))*1.0);
+				if(nextUnitCost > UnitCost) {
+					updateAuxiliaryList(result, lastTime, i, quantity);
+					quantity = 0;
+					storedUnits = 0;
+					StoredTimes = 0;
+					lastTime = i+1;
 				}else {
-					vecesAlmacenada++;
+					StoredTimes++;
 				}
 			}else {
-				auxActualizarLista(retorno, ultimaVez, i, cantidad);
+				updateAuxiliaryList(result, lastTime, i, quantity);
 			}
 		}
-		return retorno;
+		return result;
 	}
 
-	public ArrayList<Integer> sistemaPorCostoTotalMinimo(ArrayList<Integer> articulosSemanales, double costoPreparacion, double costoMantenimiento) {
-		ArrayList<Integer> retorno = new ArrayList<Integer>();
-		int cantidad = 0;
-		int vecesAlmacenada = 0;
-		int unidadesAlmacenadas = 0;
-		int ultimaVez = 0;
-		for(int i = 0; i < articulosSemanales.size(); i++) {
-			cantidad += articulosSemanales.get(i);
-			unidadesAlmacenadas += articulosSemanales.get(i) * vecesAlmacenada;
-			double diferencia = Math.abs(costoPreparacion - (costoMantenimiento * (unidadesAlmacenadas*1.0)));
-			if(i != articulosSemanales.size()-1) {
-				int unidadesAlmacenadasNext = unidadesAlmacenadas + (articulosSemanales.get(i+1)*(vecesAlmacenada+1)); 
-				double diferenciaNext = Math.abs(costoPreparacion - (costoMantenimiento * (unidadesAlmacenadasNext*1.0)));
-				if(diferenciaNext > diferencia) {
-					auxActualizarLista(retorno, ultimaVez, i, cantidad);
-					cantidad = 0;
-					unidadesAlmacenadas = 0;
-					vecesAlmacenada = 0;
-					ultimaVez = i+1;
+	/**
+	 * calculate all net requirements to ordering in all t times using Least Total Cost method.
+	 * <p>
+	 * @param  ArrayList<Integer>: list with the quantities of weekly articles or items.
+	 * @param  double: cost to prepare or order all articles into the list.
+	 * @param  double: cost to maintenance all articles into the list.
+	 * @return	ArrayList<Integer> arrayList with all the net requirements to ordering in all t times.
+	 */
+	public ArrayList<Integer> systemLeastTotalCost(ArrayList<Integer> weeklyArticles, double preparationCost, double maintenanceCost) {
+		ArrayList<Integer> result = new ArrayList<Integer>();
+		int quantity = 0;
+		int StoredTimes = 0;
+		int storedUnits = 0;
+		int lastTime = 0;
+		for(int i = 0; i < weeklyArticles.size(); i++) {
+			quantity += weeklyArticles.get(i);
+			storedUnits += weeklyArticles.get(i) * StoredTimes;
+			double difference = Math.abs(preparationCost - (maintenanceCost * (storedUnits*1.0)));
+			if(i != weeklyArticles.size()-1) {
+				int nextStoredUnits = storedUnits + (weeklyArticles.get(i+1)*(StoredTimes+1)); 
+				double nextDiference = Math.abs(preparationCost - (maintenanceCost * (nextStoredUnits*1.0)));
+				if(nextDiference > difference) {
+					updateAuxiliaryList(result, lastTime, i, quantity);
+					quantity = 0;
+					storedUnits = 0;
+					StoredTimes = 0;
+					lastTime = i+1;
 				}else {
-					vecesAlmacenada++;
+					StoredTimes++;
 				}
 			}else {
-				auxActualizarLista(retorno, ultimaVez, i, cantidad);
+				updateAuxiliaryList(result, lastTime, i, quantity);
 			}
 		}
-		return retorno;
+		return result;
 	}
-	
-	public void auxActualizarLista(ArrayList<Integer> lista, int j, int i, int cantidad) {
-		lista.add(cantidad);
+	//preguntarle a jeison
+	/**
+	 * Update the list with all net requeriments adding.
+	 * <p>
+	 * @param  ArrayList<Integer>: list with the quantities of weekly articles or items.
+	 * @param  int: cost to prepare or order all articles into the list.
+	 * @param  int: cost to maintenance all articles into the list.
+	 * @param  int: cost to maintenance all articles into the list.
+	 * @return	ArrayList<Integer> arrayList with all the net requirements to ordering in all t times.
+	 */
+	public void updateAuxiliaryList(ArrayList<Integer> list, int j, int i, int quantity) {
+		list.add(quantity);
 		int k = j;
 		while(k < i) {
-			lista.add(0);
+			list.add(0);
 			k++;
 		}
 	}
