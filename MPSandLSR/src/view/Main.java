@@ -13,10 +13,10 @@ public class Main extends Application{
 		
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("Container.fxml"));
+			loader.setLocation(Main.class.getResource("PrincipalView.fxml"));
 			Parent root = (Parent) loader.load();
 			Scene scene = new Scene(root);
-			PrimaryStage.setTitle("Tecnicas de loteo");
+			PrimaryStage.setTitle("MPS");
 			PrimaryStage.setScene(scene);
 			PrimaryStage.show();
 			PrimaryStage.setResizable(false);

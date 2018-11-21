@@ -4,13 +4,12 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="borderLayout" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PrincipalController">
    <center>
-      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <Pane fx:id="principalPanel" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button layoutX="233.0" layoutY="280.0" mnemonicParsing="false" text="Tecnicas de loteo" />
-            <Button layoutX="275.0" layoutY="227.0" mnemonicParsing="false" text="MPS" />
+            <Button fx:id="but" layoutX="233.0" layoutY="280.0" mnemonicParsing="false" onAction="#pressendBut" text="Tecnicas de loteo" />
+            <Button fx:id="butMps" layoutX="275.0" layoutY="227.0" mnemonicParsing="false" onAction="#pressendButMps" text="MPS" />
          </children>
       </Pane>
    </center>

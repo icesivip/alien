@@ -23,63 +23,65 @@ import model.OldLotSizingMethods;
 
 public class ContainerController implements Initializable{
 
-@FXML private BorderPane BorderLayout;
-@FXML private Pane CentralPanel;
-@FXML private Label LbCostArticle;
-@FXML private Label LbCostPrepare;
-@FXML private Label LbCostMaintenance;
-@FXML private Label LbNetRequirements;
-@FXML private Button ButAddRequirement;
-@FXML private Button ButModifyData;
-@FXML private Button ButRemoveRequeriment;
-@FXML private TextField TextFCostArticle;
-@FXML private TextField TextFCostMaintenance;
-@FXML private TextField TextFCostPrepare;
-@FXML private ArrayList<TextField> TextFRequest;
-@FXML private Label LbTime;
-@FXML private ScrollPane ScrollCentralPanel;
-@FXML private Pane LeftPanel;
-@FXML private Label LbTechniques;
-@FXML private Button ButLXL;
-@FXML private Button ButPOS;
-@FXML private Button ButPOQ;
-@FXML private Button ButLTC;
-@FXML private Button ButEOQ;
-@FXML private Button ButLUC;
-@FXML private Label LbResult;
-@FXML private Label LbAnswer;
+@FXML private BorderPane borderLayout;
+@FXML private Pane centralPanel;
+@FXML private Label lbCostArticle;
+@FXML private Label lbCostPrepare;
+@FXML private Label lbCostMaintenance;
+@FXML private Label lbNetRequirements;
+@FXML private Button butAddRequirement;
+@FXML private Button butModifyData;
+@FXML private Button butRemoveRequeriment;
+@FXML private TextField textFCostArticle;
+@FXML private TextField textFCostMaintenance;
+@FXML private TextField textFCostPrepare;
+@FXML private ArrayList<TextField> textFRequest;
+@FXML private Label lbTime;
+@FXML private ScrollPane scrollCentralPanel;
+@FXML private Pane leftPanel;
+@FXML private Label lbTechniques;
+@FXML private Button butLXL;
+@FXML private Button butPOS;
+@FXML private Button butPOQ;
+@FXML private Button butLTC;
+@FXML private Button butEOQ;
+@FXML private Button butLUC;
+@FXML private Label lbResult;
+@FXML private Label lbAnswer;
 @FXML private GridPane gpOrdersInTime;
 	
     private OldLotSizingMethods lotSizingRules;
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-    	TextFRequest = new ArrayList<TextField>();
+    	
+    	textFRequest = new ArrayList<TextField>();
+    //	butLXL.setTranslateX(leftPanel.getTranslateX()/2);
     	
     }
     
     @FXML
     void PressendAddRequirement(ActionEvent event) {
     	
-    	Label newTime = new Label("T = "+(TextFRequest.size()+1));
+    	Label newTime = new Label("T = "+(textFRequest.size()+1));
     	TextField txtAux = new TextField();
     	txtAux.setPrefSize(96.0, 30.0);
-    	gpOrdersInTime.add(newTime, TextFRequest.size(), 0, 1, 1);
-    	gpOrdersInTime.add(txtAux, TextFRequest.size(), 1, 1, 1);
-    	gpOrdersInTime.resize(TextFRequest.size()*96, gpOrdersInTime.getHeight());
-    	TextFRequest.add(txtAux);
+    	gpOrdersInTime.add(newTime, textFRequest.size(), 0, 1, 1);
+    	gpOrdersInTime.add(txtAux, textFRequest.size(), 1, 1, 1);
+    	gpOrdersInTime.resize(textFRequest.size()*96, gpOrdersInTime.getHeight());
+    	textFRequest.add(txtAux);
 //    	Label newTime = new Label("T = "+(loteoSystem.getArticulosSemanales().size()+1));
     	
     }
     
     void inicializarSistema() {
-    	double costoArticulo = Double.parseDouble(TextFCostArticle.getText());
-		double costoPreparacion = Double.parseDouble(TextFCostPrepare.getText());
+    	double costoArticulo = Double.parseDouble(textFCostArticle.getText());
+		double costoPreparacion = Double.parseDouble(textFCostPrepare.getText());
 		
-		double costoMantenimiento = Double.parseDouble(TextFCostMaintenance.getText());
+		double costoMantenimiento = Double.parseDouble(textFCostMaintenance.getText());
 		lotSizingRules = new OldLotSizingMethods(costoArticulo, costoPreparacion, costoMantenimiento, OldLotSizingMethods.UNKNOWN);
-		for(int i = 0; i < TextFRequest.size(); i++) {
-			lotSizingRules.agregarPedido(Integer.parseInt(TextFRequest.get(i).getText()));
+		for(int i = 0; i < textFRequest.size(); i++) {
+			lotSizingRules.agregarPedido(Integer.parseInt(textFRequest.get(i).getText()));
 		}
     }
 
@@ -184,7 +186,7 @@ public class ContainerController implements Initializable{
 //    	gpOrdersInTime.re
     	//Poner exception no more salir pl0x papi
 //    	gpOrdersInTime.
-    	TextFRequest.remove(TextFRequest.get(TextFRequest.size()-1));
+    	textFRequest.remove(textFRequest.get(textFRequest.size()-1));
     }
 
 
