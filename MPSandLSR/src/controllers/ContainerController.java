@@ -56,7 +56,6 @@ public class ContainerController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
     	
     	textFRequest = new ArrayList<TextField>();
-    //	butLXL.setTranslateX(leftPanel.getTranslateX()/2);
     	
     }
     
@@ -70,14 +69,12 @@ public class ContainerController implements Initializable{
     	gpOrdersInTime.add(txtAux, textFRequest.size(), 1, 1, 1);
     	gpOrdersInTime.resize(textFRequest.size()*96, gpOrdersInTime.getHeight());
     	textFRequest.add(txtAux);
-//    	Label newTime = new Label("T = "+(loteoSystem.getArticulosSemanales().size()+1));
     	
     }
     
     void inicializarSistema() {
     	double costoArticulo = Double.parseDouble(textFCostArticle.getText());
 		double costoPreparacion = Double.parseDouble(textFCostPrepare.getText());
-		
 		double costoMantenimiento = Double.parseDouble(textFCostMaintenance.getText());
 		lotSizingRules = new OldLotSizingMethods(costoArticulo, costoPreparacion, costoMantenimiento, OldLotSizingMethods.UNKNOWN);
 		for(int i = 0; i < textFRequest.size(); i++) {
@@ -183,10 +180,9 @@ public class ContainerController implements Initializable{
 
     @FXML
     void PressendRemoveRequeriment(ActionEvent event) {
-//    	gpOrdersInTime.re
-    	//Poner exception no more salir pl0x papi
-//    	gpOrdersInTime.
-    	textFRequest.remove(textFRequest.get(textFRequest.size()-1));
+    	if(!textFRequest.isEmpty()) {
+    		textFRequest.remove(textFRequest.get(textFRequest.size()-1));
+    	}
     }
 
 

@@ -5,9 +5,9 @@ import java.util.ArrayList;
 public class MasterPlanSchedule {
 	
 	public static final String LOTXLOT = "";
-	public static final String ECONOMIX_ORDER_QUANTITY= "";
+	public static final String ECONOMIC_ORDER_QUANTITY= "";
 	public static final String PERIODS_OF_SUPPLY = "";
-	public static final String PERIOD_ORDER_QUIANTITY = "";
+	public static final String PERIOD_ORDER_QUANTITY = "";
 	public static final String LEAST_UNIT_COST = "";
 	public static final String LEAST_TOTAL_COST = "";
 	
