@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane fx:id="borderLayou" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="537.0" prefWidth="882.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ViewMpsController">
+<BorderPane fx:id="borderLayou" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="537.0" prefWidth="882.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ViewMpsController">
    <left>
       <Pane fx:id="centerPanel" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FF5733;" BorderPane.alignment="CENTER">
          <children>
@@ -58,7 +58,7 @@
    <center>
       <Pane fx:id="centralPanel" prefHeight="459.0" prefWidth="702.0" style="-fx-background-color: #9D7E77;" BorderPane.alignment="CENTER">
          <children>
-            <ScrollPane fx:id="spCentralPanel" hmax="0.0" layoutX="3.0" prefHeight="417.0" prefWidth="677.0">
+            <ScrollPane fx:id="spCentralPanel" layoutX="3.0" prefHeight="417.0" prefWidth="677.0">
                <content>
                   <GridPane fx:id="gpSpCentralPanel" gridLinesVisible="true" maxHeight="417.0" maxWidth="245.0" prefHeight="417.0" prefWidth="245.0">
                     <columnConstraints>

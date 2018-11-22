@@ -21,8 +21,8 @@ public class PrincipalController implements Initializable{
 
 @FXML private BorderPane borderLayout;
 @FXML private Pane principalPanel;
-@FXML private Button but;
-@FXML private Button butMps;
+@FXML private Button butLSR;
+@FXML private Button butMPS;
 
 	    @FXML
 	    void pressendButMps(ActionEvent event) {
@@ -33,7 +33,7 @@ public class PrincipalController implements Initializable{
 				Scene scene = new Scene(root);
 				Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 				window.setScene(scene);
-				window.setTitle("CALCULATE MPS");
+				window.setTitle("Master Plan Schedule");
 				window.show();
 			}
 			catch(Exception e) {
