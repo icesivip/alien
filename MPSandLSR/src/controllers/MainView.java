@@ -17,7 +17,7 @@ import views.Main;
 
 
 
-public class PrincipalController implements Initializable{
+public class MainView implements Initializable{
 
 @FXML private BorderPane borderLayout;
 @FXML private Pane principalPanel;

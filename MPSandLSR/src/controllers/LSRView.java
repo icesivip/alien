@@ -21,7 +21,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.StageStyle;
 import model.OldLotSizingMethods;
 
-public class ContainerController implements Initializable{
+public class LSRView implements Initializable{
 
 @FXML private BorderPane borderLayout;
 @FXML private Pane centralPanel;

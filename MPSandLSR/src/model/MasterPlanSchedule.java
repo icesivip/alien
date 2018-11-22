@@ -29,6 +29,8 @@ public class MasterPlanSchedule {
 	private double preparationCost;
 	private double maintenanceCost;
 	private String periodicity;
+	
+	public static LotSizingMethods lotSizingMethods;
 
 	private ArrayList<Integer> bruteRequirements;
 	private ArrayList<Integer> scheduledReceptions;
@@ -50,9 +52,108 @@ public class MasterPlanSchedule {
 		this.preparationCost = preparationCost;
 		this.maintenanceCost = maintenanceCost;
 		this.periodicity = periodicity;
+		
+		lotSizingMethods = new LotSizingMethods();
+		
+		bruteRequirements = new ArrayList<Integer>();
+		scheduledReceptions = new ArrayList<Integer>();
+		scheduledAvailableStock = new ArrayList<Integer>();
+		netRequirements = new ArrayList<Integer>();
+		planOrders = new ArrayList<Integer>();
+		releasedPlanOrders = new ArrayList<Integer>();
 	}
 	
+	public void addBruteRequirement(int toBeAdded) {
+		bruteRequirements.add(toBeAdded);
+	}
 	
+	public void addScheduleReception(int toBeAdded) {
+		scheduledReceptions.add(toBeAdded);
+	}
+	
+	public void calculatePlanOrders() {
+		switch(lotSizingMethod){
+		case(ECONOMIC_ORDER_QUANTITY):
+			planOrders = lotSizingMethods.systemEconomicOrderQuantiy(bruteRequirements, costArticle, preparationCost, maintenanceCost);
+			break;
+		case(PERIODS_OF_SUPPLY):
+			planOrders = lotSizingMethods.systemPeriodsOfSupply(1, bruteRequirements);
+			break;
+		case(PERIOD_ORDER_QUANTITY):
+			planOrders = lotSizingMethods.systemPeriodOrderQuantity(bruteRequirements, costArticle, preparationCost, maintenanceCost);
+			break;
+		case(LEAST_UNIT_COST):
+			planOrders = lotSizingMethods.systemLeastUnitCost(bruteRequirements, preparationCost, maintenanceCost);
+			break;
+		case(LEAST_TOTAL_COST):
+			planOrders = lotSizingMethods.systemLeastTotalCost(bruteRequirements, preparationCost, maintenanceCost);
+			break;
+		}
+	}
+	
+	public void hopeThisWorks() {
+		boolean lotxlot = false;
+		if(!lotSizingMethod.equals(LOTXLOT)) {
+			calculatePlanOrders();
+		}else {
+			lotxlot = true;
+		}
+		int actualNetReq = bruteRequirements.get(0) + securityStock - initialStock - scheduledReceptions.get(0);
+		int actualStockAvailable = 0;
+		if(actualNetReq > 0) {
+			netRequirements.add(actualNetReq);
+			if(lotxlot) {
+				planOrders.add(netRequirements.get(0));
+			}
+		}else {
+			if(lotxlot) {
+				planOrders.add(0);
+			}
+			netRequirements.add(0);
+		}
+		actualStockAvailable = planOrders.get(0) + initialStock + scheduledReceptions.get(0) - bruteRequirements.get(0);
+		scheduledAvailableStock.add(actualStockAvailable);
+		for(int i = 1; i < bruteRequirements.size(); i++) {
+			actualNetReq = bruteRequirements.get(i) + securityStock - scheduledAvailableStock.get(i-1) - scheduledReceptions.get(i);
+			if(actualNetReq > 0) {
+				netRequirements.add(actualNetReq);
+				if(lotxlot) {
+					planOrders.add(netRequirements.get(i));
+				}
+			}else {
+				if(lotxlot) {
+					planOrders.add(0);
+				}
+				netRequirements.add(0);
+			}
+			actualStockAvailable = planOrders.get(i) + scheduledAvailableStock.get(i-1) + scheduledReceptions.get(i) - bruteRequirements.get(i);
+			scheduledAvailableStock.add(actualStockAvailable);
+		}
+	}
+
+	public ArrayList<Integer> getScheduledAvailableStock() {
+		return scheduledAvailableStock;
+	}
+
+	public void setScheduledAvailableStock(ArrayList<Integer> scheduledAvailableStock) {
+		this.scheduledAvailableStock = scheduledAvailableStock;
+	}
+
+	public ArrayList<Integer> getNetRequirements() {
+		return netRequirements;
+	}
+
+	public void setNetRequirements(ArrayList<Integer> netRequirements) {
+		this.netRequirements = netRequirements;
+	}
+
+	public ArrayList<Integer> getPlanOrders() {
+		return planOrders;
+	}
+
+	public void setPlanOrders(ArrayList<Integer> planOrders) {
+		this.planOrders = planOrders;
+	}
 	
 	
 }

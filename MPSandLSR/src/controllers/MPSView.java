@@ -15,8 +15,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import model.MasterPlanSchedule;
 
-public class ViewMpsController implements Initializable{
+public class MPSView implements Initializable{
 	
 	public static final String[] LOT_SIZING_METHODS = {"Lot for Lot", "Economic Order Quantity", "Periods Of Suply", 
 			"Period Order Quantity", "Least Unit Cost", "Least Total Cost"};
@@ -107,7 +108,17 @@ public class ViewMpsController implements Initializable{
 
 	@FXML
 	void pressendButUpdateData(ActionEvent event) {
-		
+		MasterPlanSchedule mps = new MasterPlanSchedule(CbLotTec.getValue(), Integer.parseInt(TfLeadTime.getText()), Integer.parseInt(TfAvalibleInvetary.getText()), Integer.parseInt(TfSecurityInventory.getText()), TfCode.getText(), TfItemName.getText(), Double.parseDouble(TfItemCost.getText()), Double.parseDouble(TfOrderCost.getText()), Double.parseDouble(TfMaintenanceCost.getText()), "");
+		for(int i = 0; i < textFBruteRequirements.size(); i++) {
+			mps.addBruteRequirement(Integer.parseInt(textFBruteRequirements.get(i).getText()));
+			mps.addScheduleReception(Integer.parseInt(textFScheduledReceptions.get(i).getText()));
+		}
+		mps.hopeThisWorks();
+		for(int i = 0; i < textFBruteRequirements.size(); i++) {
+			textFScheduledAvailableStock.get(i).setText("" + mps.getScheduledAvailableStock().get(i));
+			textFNetRequirements.get(i).setText("" + mps.getNetRequirements().get(i));
+			textFPlanOrders.get(i).setText("" + mps.getPlanOrders().get(i));
+		}
 	}
 
 	@Override
