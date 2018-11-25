@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="borderLayout" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="363.0" prefWidth="850.0" style="-fx-border-color: #D7DF01;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PrincipalController">
+   <center>
+      <TabPane fx:id="tabPane" prefHeight="370.0" prefWidth="862.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab fx:id="tabLotSizing" text="Lot Sizing Techniques">
+               <content>
+                  <BorderPane fx:id="borderTabSizing" prefHeight="200.0" prefWidth="200.0">
+                     <center>
+                        <Pane fx:id="centralPanel" prefHeight="279.0" prefWidth="535.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Label fx:id="lbCostArticle" layoutX="14.0" layoutY="10.0" text="Item cost (V)" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="Calibri" size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lbCostPrepare" layoutX="13.0" layoutY="42.0" text="Preparation Cost(S)">
+                                 <font>
+                                    <Font name="Calibri" size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lbCostMaintenance" layoutX="14.0" layoutY="80.0" text="Maintenance cost per period (r) ">
+                                 <font>
+                                    <Font name="Calibri" size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lbNetRequirements" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="8.0" layoutY="119.0" prefHeight="21.0" prefWidth="534.0" style="-fx-background-color: #81BEF7;" text="Net requirement" textAlignment="CENTER">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="butAddRequirement" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="11.0" layoutY="244.0" mnemonicParsing="false" onAction="#PressendAddRequirement" text="Add requirement" />
+                              <Button fx:id="butModifyData" layoutX="367.0" layoutY="244.0" mnemonicParsing="false" onAction="#PressendModifyData" text="Modify data" />
+                              <Button fx:id="butRemoveRequeriment" layoutX="185.0" layoutY="244.0" mnemonicParsing="false" onAction="#PressendRemoveRequeriment" text="Delete requirement" />
+                              <TextField fx:id="textFCostArticle" layoutX="450.0" layoutY="7.0" minHeight="25.0" prefHeight="6.0" prefWidth="90.0" />
+                              <TextField fx:id="textFCostMaintenance" layoutX="449.0" layoutY="79.0" minHeight="25.0" prefHeight="7.0" prefWidth="90.0" />
+                              <TextField fx:id="textFCostPrepare" layoutX="450.0" layoutY="40.0" minHeight="25.0" prefHeight="7.0" prefWidth="90.0" />
+                              <ScrollPane fx:id="scrollCentralPanel" layoutX="8.0" layoutY="140.0" prefHeight="93.0" prefWidth="534.0" style="-fx-background-color: #4F8CAB;">
+                                 <content>
+                                    <GridPane fx:id="gpOrdersInTime" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="83.0">
+                                      <columnConstraints>
+                                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="272.0" minWidth="10.0" prefWidth="111.0" />
+                                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="439.0" minWidth="10.0" prefWidth="110.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                    </GridPane>
+                                 </content>
+                              </ScrollPane>
+                           </children>
+                           <BorderPane.margin>
+                              <Insets />
+                           </BorderPane.margin>
+                        </Pane>
+                     </center>
+                     <right>
+                        <Pane fx:id="leftPanel" prefHeight="280.0" prefWidth="240.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Label fx:id="lbTechniques" alignment="TOP_CENTER" layoutX="28.0" layoutY="14.0" text="Lot Sizing Techniques" underline="true">
+                                 <font>
+                                    <Font name="Calibri Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="butLXL" contentDisplay="TOP" layoutX="10.0" layoutY="50.0" mnemonicParsing="false" onAction="#PressendLXL" text="LotxLot" textAlignment="CENTER" />
+                              <Button fx:id="butPOS" contentDisplay="TOP" layoutX="10.0" layoutY="90.0" mnemonicParsing="false" onAction="#PressendPOS" text="Periods of supply" textAlignment="CENTER" />
+                              <Button fx:id="butPOQ" contentDisplay="TOP" layoutX="10.0" layoutY="130.0" mnemonicParsing="false" onAction="#PressendPOQ" text="Period order quantity" textAlignment="CENTER" />
+                              <Button fx:id="butLTC" contentDisplay="TOP" layoutX="10.0" layoutY="170.0" mnemonicParsing="false" onAction="#PressedLTC" text="Least total cost" textAlignment="CENTER" />
+                              <Button fx:id="butEOQ" layoutX="10.0" layoutY="210.0" mnemonicParsing="false" onAction="#PressedEOQ" text="Economic order quantity" textAlignment="CENTER" />
+                              <Button fx:id="butLUC" layoutX="10.0" layoutY="250.0" mnemonicParsing="false" onAction="#PressedLUC" text="Least unit cost" textAlignment="CENTER" />
+                           </children>
+                           <BorderPane.margin>
+                              <Insets />
+                           </BorderPane.margin>
+                        </Pane>
+                     </right>
+                  </BorderPane>
+               </content>
+            </Tab>
+          <Tab fx:id="TabMps" text="MPS">
+               <content>
+                  <BorderPane fx:id="borderTabMps" prefHeight="200.0" prefWidth="200.0">
+                     <center>
+                        <ScrollPane fx:id="spCentralPanel" prefHeight="278.0" prefWidth="609.0" BorderPane.alignment="CENTER">
+                           <content>
+                              <GridPane fx:id="gpSpCentralPanel" maxHeight="271.0" maxWidth="243.0" prefHeight="271.0" prefWidth="243.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="232.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label />
+                                    <Label fx:id="labGrossRequirements" text="Gross requirement" GridPane.rowIndex="1" />
+                                    <Label fx:id="labScheduledReceptions" text="Scheduled Receptions" GridPane.rowIndex="2" />
+                                    <Label fx:id="lavAvalibeSchudeleInventory" text="Inv. Available programmed" GridPane.rowIndex="3" />
+                                    <Label fx:id="labNetRequeriments" text="Net requirements" GridPane.rowIndex="4" />
+                                    <Label fx:id="labScheduledOrders" text="Receptions of planned orders" GridPane.rowIndex="5" />
+                                    <Label fx:id="labReleaseOrders" minHeight="21.0" minWidth="232.0" text="Liberaciones de ordenes Planeadas" GridPane.rowIndex="6" />
+                                 </children>
+                              </GridPane>
+                           </content>
+                        </ScrollPane>
+                     </center>
+                     <bottom>
+                        <Pane fx:id="underPanel" prefHeight="50.0" prefWidth="862.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <GridPane fx:id="gpUnderPanel" prefHeight="53.0" prefWidth="850.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Button fx:id="butUpdateData" mnemonicParsing="false" onAction="#pressendButUpdateData" text="Update" />
+                                    <Button fx:id="butAddTimes" mnemonicParsing="false" onAction="#pressendButAddTime" text="Add" GridPane.columnIndex="2" />
+                                    <Button fx:id="butDeleteTimes" mnemonicParsing="false" onAction="#pressendButDeleteTime" text="Eliminar" GridPane.columnIndex="1" />
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </Pane>
+                     </bottom>
+                     <left>
+                        <Pane fx:id="PaneTabMpsPrincipalnfo" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <GridPane fx:id="gpPanePrincipalInfo">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label fx:id="labTecnica" text="Lottery technique" />
+                                    <Label fx:id="labLeadTime" text="Lead Time" GridPane.rowIndex="1" />
+                                    <Label fx:id="labAvailableInventory" text="Inv. Available" GridPane.rowIndex="2" />
+                                    <Label fx:id="labSecurityInventory" text="Inv. Security" GridPane.rowIndex="3" />
+                                    <Label fx:id="labCode" text="code" GridPane.rowIndex="4" />
+                                    <Label fx:id="labMaintenanceCost" text="Maintenance cost" GridPane.rowIndex="5" />
+                                    <Label fx:id="labItemCost" text="Item cost" GridPane.rowIndex="6" />
+                                    <Label fx:id="labPreparationCost" text="cost of ordering" GridPane.rowIndex="7" />
+                                    <Label fx:id="labItemName" text="Item name" GridPane.rowIndex="8" />
+                                    <ChoiceBox fx:id="cbLotTec" prefWidth="150.0" GridPane.columnIndex="1" />
+                                    <TextField fx:id="tfLeadTime" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <TextField fx:id="tfAvalibleInvetary" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <TextField fx:id="tfSecurityInventory" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <TextField fx:id="tfCode" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <TextField fx:id="tfMaintenanceCost" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <TextField fx:id="tfItemCost" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                    <TextField fx:id="tfOrderCost" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                    <TextField fx:id="tfItemName" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </Pane>
+                     </left>
+                  </BorderPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+</BorderPane>

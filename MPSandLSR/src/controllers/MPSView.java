@@ -128,7 +128,6 @@ public class MPSView implements Initializable{
 		textFScheduledAvailableStock = new ArrayList<TextField>();
 		textFNetRequirements = new ArrayList<TextField>();
 		textFPlanOrders = new ArrayList<TextField>();
-		textFReleasedPlanOrders = new ArrayList<TextField>();
 		CbLotTec.setItems(FXCollections.observableArrayList(LOT_SIZING_METHODS));
 	}
 	

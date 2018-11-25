@@ -13,7 +13,7 @@ public class Main extends Application{
 		
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("PrincipalView.fxml"));
+			loader.setLocation(Main.class.getResource("View.fxml"));
 			Parent root = (Parent) loader.load();
 			Scene scene = new Scene(root);
 			PrimaryStage.setTitle("MPS");
