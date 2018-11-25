@@ -45,9 +45,8 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Button fx:id="butAddRequirement" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="11.0" layoutY="244.0" mnemonicParsing="false" onAction="#PressendAddRequirement" text="Add requirement" />
-                              <Button fx:id="butModifyData" layoutX="367.0" layoutY="244.0" mnemonicParsing="false" onAction="#PressendModifyData" text="Modify data" />
-                              <Button fx:id="butRemoveRequeriment" layoutX="185.0" layoutY="244.0" mnemonicParsing="false" onAction="#PressendRemoveRequeriment" text="Delete requirement" />
+                              <Button fx:id="butAddRequirement" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="89.0" layoutY="244.0" mnemonicParsing="false" onAction="#PressendAddRequirement" text="Add requirement" />
+                              <Button fx:id="butRemoveRequeriment" layoutX="338.0" layoutY="244.0" mnemonicParsing="false" onAction="#PressendRemoveRequeriment" text="Delete requirement" />
                               <TextField fx:id="textFCostArticle" layoutX="450.0" layoutY="7.0" minHeight="25.0" prefHeight="6.0" prefWidth="90.0" />
                               <TextField fx:id="textFCostMaintenance" layoutX="449.0" layoutY="79.0" minHeight="25.0" prefHeight="7.0" prefWidth="90.0" />
                               <TextField fx:id="textFCostPrepare" layoutX="450.0" layoutY="40.0" minHeight="25.0" prefHeight="7.0" prefWidth="90.0" />

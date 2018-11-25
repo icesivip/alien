@@ -15,6 +15,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -28,8 +29,8 @@ public class PrincipalController  implements Initializable{
 
 
 
-		public static final String[] LOT_SIZING_METHODS = {"Lot for Lot", "Economic Order Quantity", "Periods Of Suply", 
-			"Period Order Quantity", "Least Unit Cost", "Least Total Cost"};
+//		public static final String[] LOT_SIZING_METHODS = {"Lot for Lot", "Economic Order Quantity", "Periods Of Suply", 
+//			"Period Order Quantity", "Least Unit Cost", "Least Total Cost"};
 
 		@FXML 
 		private ArrayList<TextField> textFRequest;
@@ -304,10 +305,7 @@ public class PrincipalController  implements Initializable{
 	    	dialogAlert.showAndWait();
 	    }
 
-	    @FXML
-	    void PressendModifyData(ActionEvent event) {
-
-	    }
+	 
 
 	    @FXML
 	    void PressendPOQ(ActionEvent event) {
@@ -325,9 +323,19 @@ public class PrincipalController  implements Initializable{
 	    @FXML
 	    void PressendPOS(ActionEvent event) {
 
+	    	System.out.println("hola");
 	    	inicializarSistema();
-	    	//agregar opción de ingreso
-	    	lotSizingRules.sistemaPeriodoDeSuministro(1);
+	    
+	    	TextInputDialog entrada = new TextInputDialog();
+	    	entrada.setTitle ("...");
+	    	
+	    	entrada.setHeaderText ("Cantidad de periodos");
+	    	entrada.setContentText ("Ingrese la cantidad de periodos:");
+	    	entrada.showAndWait();
+	    	System.out.println(entrada.getResult());
+	    	lotSizingRules.sistemaPeriodoDeSuministro(Integer.parseInt(entrada.getResult()));
+	    	entrada.close();
+	    	
 	    	Alert dialogAlert = new Alert(AlertType.INFORMATION);
 	    	dialogAlert.setTitle("Planificación de pedidos por periodos de suministro");
 	    	dialogAlert.setHeaderText(null);
@@ -407,8 +415,12 @@ public class PrincipalController  implements Initializable{
 			textFNetRequirements = new ArrayList<TextField>();
 			textFPlanOrders = new ArrayList<TextField>();
 			textFReleasedPlanOrders = new ArrayList<TextField>();
-			cbLotTec = new ChoiceBox<String>();
-			cbLotTec.setItems(FXCollections.observableArrayList(LOT_SIZING_METHODS));
+			//cbLotTec = new ChoiceBox<String>();
+			cbLotTec.setItems(FXCollections.observableArrayList("Lot for Lot", "Economic Order Quantity", "Periods Of Suply", 
+					"Period Order Quantity", "Least Unit Cost", "Least Total Cost"));
+		
+			
+		
 		}
 
 	}
