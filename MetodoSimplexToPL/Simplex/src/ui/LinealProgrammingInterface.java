@@ -16,6 +16,7 @@ import simplex.*;
 public class LinealProgrammingInterface extends javax.swing.JFrame {
 
     private Simplex simplex;
+    private String mode;
     /**
      * Creates new form Frame
      */
@@ -95,11 +96,18 @@ public class LinealProgrammingInterface extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         JFrame ventana = new JFrame();
-        PanelEquations panelE = new PanelEquations(this, txtNVariables.getText(), txtNCons.getText(), (String)combOptim.getSelectedItem(), ventana);
+        PanelBeginnerMode panelB;
+        PanelAdvanceMode panelA;
+        if(mode.equals("Beginner")){
+            panelB = new PanelBeginnerMode(this, txtNVariables.getText(), txtNCons.getText(), (String)combOptim.getSelectedItem(), ventana);
+            ventana.add(panelB);
+        } else {
+            panelA = new PanelAdvanceMode(this, txtNVariables.getText(), txtNCons.getText(), (String)combOptim.getSelectedItem(), ventana);
+            ventana.add(panelA);
+        }
         ventana.setVisible(true);
         ventana.setTitle(txtTitle.getText());
         this.setVisible(false);
-        ventana.add(panelE);
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ventana.pack();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -139,7 +147,13 @@ public class LinealProgrammingInterface extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new LinealProgrammingInterface().setVisible(true);
+                JFrame frame = new JFrame();
+                LinealProgrammingInterface ui = new LinealProgrammingInterface();
+                PanelBanner ban = new PanelBanner(ui, frame);
+                frame.add(ban);
+                frame.pack();
+                frame.setVisible(true);
+                frame.setTitle("SIMPOD");
             }
         });
     }
@@ -172,5 +186,9 @@ public class LinealProgrammingInterface extends javax.swing.JFrame {
     
     public String[] getVarNames() {
         return simplex.getEveryVariableName();
+    }
+
+    void setMode(String mode) {
+        this.mode = mode;
     }
 }

@@ -15,7 +15,7 @@ import javax.swing.*;
  *
  * @author Luis
  */
-public class PanelEquations extends JPanel implements ActionListener {
+public class PanelBeginnerMode extends JPanel implements ActionListener {
 
     private LinealProgrammingInterface ui;
     String title;
@@ -33,7 +33,7 @@ public class PanelEquations extends JPanel implements ActionListener {
      * Creates new form PanelEquations nCons is the number of Constrains,
      * without counting the objective function
      */
-    public PanelEquations(LinealProgrammingInterface ui, String nVar, String nConstr, String optim, JFrame actual) {
+    public PanelBeginnerMode(LinealProgrammingInterface ui, String nVar, String nConstr, String optim, JFrame actual) {
         enVista = actual;
         initComponents();
         butOptimize.setText(optim);
