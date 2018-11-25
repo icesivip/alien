@@ -13,13 +13,9 @@ import javax.swing.*;
  */
 public class PanelAdvanceMode extends javax.swing.JPanel implements ActionListener{
 
-    private JTable table;
-    
     private JFrame frame;
     
     private LinealProgrammingInterface ui;
-    
-    private JScrollPane scroll;
     
     /**
      * Creates new form PanelAdvaceMode
@@ -27,7 +23,6 @@ public class PanelAdvanceMode extends javax.swing.JPanel implements ActionListen
     public PanelAdvanceMode(LinealProgrammingInterface ui,String stringNumberOfVariables, String stringNumberOfConstrains, String criterion, JFrame screen) {
         initComponents();
         frame = screen;
-        scroll = new JScrollPane();
         int numberOfVariables = Integer.parseInt(stringNumberOfVariables);
         int numberOfConstrains = Integer.parseInt(stringNumberOfConstrains);
         numberOfVariables += 3;
@@ -55,23 +50,21 @@ public class PanelAdvanceMode extends javax.swing.JPanel implements ActionListen
             }
         }
         
-        jTable1 = new JTable(data, titles);
+        tabAdvanced = new JTable(data, titles);
         this.ui = ui;
-        scroll.setViewportView(jTable1);
+        scrollPane.setViewportView(tabAdvanced);
+        add(scrollPane);
     }
     public JTable getTable(){
-        return jTable1;
+        return tabAdvanced;
     }
     
-    public JScrollPane getJScroll(){
-        return scroll;
-    }
     public static void main(String[] args){
-     //   PanelAdvanceMode panel = new PanelAdvanceMode(10, 10, "Max");
+        LinealProgrammingInterface ui = null;
         JFrame frame = new JFrame();
-        JScrollPane scroll = new JScrollPane();
-      //  scroll.setViewportView(panel.getTable());
-        frame.add(scroll);
+        PanelAdvanceMode panel = new PanelAdvanceMode(ui, "10", "10", "Max", frame);
+        
+        frame.add(panel);
         frame.pack();
         frame.setVisible(true);
     }
@@ -89,19 +82,13 @@ public class PanelAdvanceMode extends javax.swing.JPanel implements ActionListen
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        butSolve = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        scrollPane = new javax.swing.JScrollPane();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabAdvanced = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        butSolve = new javax.swing.JButton();
 
-        butSolve.setText("SOLVE");
-        butSolve.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                butSolveActionPerformed(evt);
-            }
-        });
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabAdvanced.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -112,9 +99,19 @@ public class PanelAdvanceMode extends javax.swing.JPanel implements ActionListen
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tabAdvanced);
 
-        jScrollPane2.setViewportView(jScrollPane1);
+        scrollPane.setViewportView(jScrollPane1);
+
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        butSolve.setText("SOLVE");
+        butSolve.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butSolveActionPerformed(evt);
+            }
+        });
+        jPanel1.add(butSolve, java.awt.BorderLayout.PAGE_START);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -122,21 +119,17 @@ public class PanelAdvanceMode extends javax.swing.JPanel implements ActionListen
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
+                .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 591, Short.MAX_VALUE)
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(203, 203, 203)
-                .addComponent(butSolve)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(butSolve)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -147,8 +140,9 @@ public class PanelAdvanceMode extends javax.swing.JPanel implements ActionListen
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton butSolve;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane scrollPane;
+    private javax.swing.JTable tabAdvanced;
     // End of variables declaration//GEN-END:variables
 }
