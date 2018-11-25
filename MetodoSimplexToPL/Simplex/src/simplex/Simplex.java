@@ -425,7 +425,8 @@ public class Simplex implements Solver{
                 }
             if(model.getVariableAt(i).getName().startsWith("X"))
                 if(solution.getVariableValue(model.getVariableAt(i)) == 0)
-                    return "Infinite solutions!";
+                    if(Final.getArray()[0][i] == 0)
+                        return "Infinite solutions!";
             if((model.getType().equals(Model.MAXIMIZE) && Final.getArray()[0][i] <0) || (model.getType().equals(Model.MINIMIZE) && Final.getArray()[0][i] > 0))
                 return "Solution not bounded";
         }
