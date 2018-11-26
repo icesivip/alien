@@ -173,7 +173,6 @@ public class LinealProgrammingInterface extends javax.swing.JFrame {
 
     void InitializeProcess(String[] equations, String opti) {
            simplex = new Simplex(opti, equations);
-           
     }
 
     double[][] nextIteration() {
@@ -190,5 +189,15 @@ public class LinealProgrammingInterface extends javax.swing.JFrame {
 
     void setMode(String mode) {
         this.mode = mode;
+    }
+
+    void FinalSolution(String[] equations, String opti) {
+        simplex = new Simplex(opti, equations);
+        simplex.getFinalSolution();
+    }
+
+    double[][] lastIteration() {
+        
+        return null;
     }
 }

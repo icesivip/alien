@@ -404,15 +404,8 @@ public class Simplex implements Solver{
 
     @Override
     public Solution solve(Model model) {
-        
         calculateInitialBase();
         internalteration(model.getType().equals(Model.MAXIMIZE));
-//        double[][] finalFinal = null;
-//        double[][] sig = nextIteration();
-//        while(finalFinal != sig){
-//            finalFinal = sig;
-//            sig = nextIteration();
-//        }
         return solution;
     }
 
@@ -442,5 +435,15 @@ public class Simplex implements Solver{
         for (int i = 0; i < model.getVariableCount(); i++) 
             vars[i] = model.getVariableAt(i).getName();
         return vars;
+    }
+
+    public double [][] getFinalSolution() {
+        double[][] finalFinal = null;
+        double[][] sig = nextIteration();
+        while(finalFinal != sig){
+            finalFinal = sig;
+            sig = nextIteration();
+        }
+        return sig;
     }
 }

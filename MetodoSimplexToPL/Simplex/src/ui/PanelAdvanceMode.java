@@ -23,6 +23,7 @@ public class PanelAdvanceMode extends javax.swing.JPanel{
      */
     public PanelAdvanceMode(LinealProgrammingInterface ui,String stringNumberOfVariables, String stringNumberOfConstrains, String criterion, JFrame screen) {
         initComponents();
+        labCriterion.setText(criterion);
         frame = screen;
         int numberOfVariables = Integer.parseInt(stringNumberOfVariables);
         int numberOfConstrains = Integer.parseInt(stringNumberOfConstrains);
@@ -74,6 +75,7 @@ public class PanelAdvanceMode extends javax.swing.JPanel{
         tabAdvanced = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         butSolve = new javax.swing.JButton();
+        labCriterion = new javax.swing.JLabel();
 
         tabAdvanced.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -100,6 +102,9 @@ public class PanelAdvanceMode extends javax.swing.JPanel{
         });
         jPanel1.add(butSolve, java.awt.BorderLayout.PAGE_START);
 
+        labCriterion.setText("Max/Min");
+        jPanel1.add(labCriterion, java.awt.BorderLayout.LINE_START);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -121,7 +126,7 @@ public class PanelAdvanceMode extends javax.swing.JPanel{
     }// </editor-fold>//GEN-END:initComponents
 
     private void butSolveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butSolveActionPerformed
-        //System.out.print();
+        ui.FinalSolution(getInformation(), labCriterion.getText());
     }//GEN-LAST:event_butSolveActionPerformed
 
     public String[] getInformation(){
@@ -148,6 +153,9 @@ public class PanelAdvanceMode extends javax.swing.JPanel{
             }
          information[i] = line;
         }
+        for (int i = 0; i < information.length; i++) {
+            System.out.println(information[i]);
+        }
         return information;
     }
     
@@ -162,6 +170,7 @@ public class PanelAdvanceMode extends javax.swing.JPanel{
     private javax.swing.JButton butSolve;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel labCriterion;
     private javax.swing.JScrollPane scrollPane;
     private javax.swing.JTable tabAdvanced;
     // End of variables declaration//GEN-END:variables

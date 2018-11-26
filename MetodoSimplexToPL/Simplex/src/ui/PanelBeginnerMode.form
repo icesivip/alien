@@ -16,9 +16,18 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                      <Component id="labOptimization" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="butStepByStep" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="butFinalSolution" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="labOF" min="-2" max="-2" attributes="0"/>
@@ -29,11 +38,6 @@
                   </Group>
                   <Component id="panelCons" min="-2" max="-2" attributes="0"/>
               </Group>
-          </Group>
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="butOptimize" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -50,7 +54,11 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="panelCons" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="butOptimize" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="butFinalSolution" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="butStepByStep" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="labOptimization" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -103,13 +111,26 @@
         </DimensionLayout>
       </Layout>
     </Container>
-    <Component class="javax.swing.JButton" name="butOptimize">
+    <Component class="javax.swing.JButton" name="butFinalSolution">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Final solution"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butFinalSolutionActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="butStepByStep">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Step by step"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butStepByStepActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labOptimization">
       <Properties>
         <Property name="text" type="java.lang.String" value="Max/Min"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butOptimizeActionPerformed"/>
-      </Events>
     </Component>
   </SubComponents>
 </Form>
