@@ -130,29 +130,39 @@ public class PanelAdvanceMode extends javax.swing.JPanel{
     }//GEN-LAST:event_butSolveActionPerformed
 
     public String[] getInformation(){
-        String[] information = new String[tabAdvanced.getColumnCount()];
-        for (int i = 1; i < tabAdvanced.getRowCount(); i++){
+        String[] information = new String[tabAdvanced.getRowCount()];
+        for (int i = 0; i < tabAdvanced.getRowCount(); i++){
            
             String line = "";
             for (int j = 0; j < tabAdvanced.getColumnCount(); j++) {
-                if(tabAdvanced.getModel().getValueAt(i, j) == null){
-                    line+="0 "+"X"+j;
+                 if(tabAdvanced.getModel().getValueAt(i, j) == null){
+                  if(j == tabAdvanced.getColumnCount() - 1){
+                      line+="0";
+                  }else{
+                    line+="0 "+"X"+j+" "; 
+                  }
                 }else{
                        if(j == 0){
                           if(tabAdvanced.getModel().getValueAt(i, j).equals("Z")){
-                            line += "1 "+"Z"; 
+                            line += "1 "+"Z "; 
                        }else{
-                            line += "0 "+"Z"; 
+                            line += "0 "+"Z "; 
                           }
                        
                       }else{
-                           line+=tabAdvanced.getModel().getValueAt(i, j)+" X"+j;
+                           if(j < tabAdvanced.getColumnCount()-2){
+                              line+=tabAdvanced.getModel().getValueAt(i, j)+ " "+"X"+j+" "; 
+                           }else{
+                                line+=tabAdvanced.getModel().getValueAt(i, j)+" ";
+                           }
+                           
                        }
                 }
       
             }
          information[i] = line;
         }
+        System.out.println(tabAdvanced.getRowCount());
         for (int i = 0; i < information.length; i++) {
             System.out.println(information[i]);
         }
