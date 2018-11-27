@@ -455,25 +455,10 @@ public class Simplex implements Solver{
         return sig;
     }
 
-     public String getSolutionInWords() {
-        StringBuilder sb = new StringBuilder("");
-        if(solution!= null && model != null){
-             try {
-            for (int i = 0; i < model.getVariableCount(); i++) {
-               
-                    sb.append(model.getVariableAt(i).getName()+" = ");
-                    sb.append(solution.getVariableValue(model.getVariableAt(i)));
-                    sb.append(" ");
-                     
-            }
-            sb.append("Z = ");
-            sb.append(solution.getObjectiveFunctionValue());
-            } catch (Exception ex) {
-                    Logger.getLogger(Simplex.class.getName()).log(Level.SEVERE, null, ex);
-                }  
-        }
-        return sb.toString();
-        
+    public String getSolutionInWords() {
+        if(solution!= null)
+        return solution.toString();
+        else return null;
     }
 
     public String getCriterion() {
