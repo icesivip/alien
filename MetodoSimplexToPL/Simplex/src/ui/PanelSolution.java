@@ -163,7 +163,7 @@ public class PanelSolution extends javax.swing.JPanel {
         fillMatrix(itMatrix);
         labTitleIteration.setText("Iteration: "+ ui.actualIteration());
         labSolutionOrOperation.setText(ui.getOperations());
-        if(ui.getSolution() != null){
+        if(!ui.getSolution().equals("")){
             butNext.setEnabled(false);
             labTitleSO.setText("Solution: ");
             labSolutionOrOperation.setText(ui.getSolution());
