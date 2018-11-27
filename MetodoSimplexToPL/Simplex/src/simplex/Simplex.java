@@ -310,9 +310,10 @@ public class Simplex implements Solver{
                 posMasG = i;
             }
         }
-        operationsDone += "La variable " + model.getVariableAt(posMasG).getName() + " entra a base.";
-        if(masGrande != 0)
+        if(masGrande != 0){
             procd = true;
+            operationsDone += "La variable " + model.getVariableAt(posMasG).getName() + " entra a base.";
+        }
         theta = new double[Base.length];
         double rowLow = Double.MAX_VALUE;
         int posLow = -1;
