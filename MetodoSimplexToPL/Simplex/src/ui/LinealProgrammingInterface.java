@@ -276,4 +276,12 @@ public class LinealProgrammingInterface extends javax.swing.JFrame {
     String getSolution() {
         return simplex.getSolutionInWords();
     }
+
+    String getOperations() {
+        return simplex.getOperationsDone();
+    }
+
+    double[] getThetaColumn() {
+        return simplex.getTheta();
+    }
 }

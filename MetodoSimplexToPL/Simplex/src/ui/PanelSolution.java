@@ -162,6 +162,7 @@ public class PanelSolution extends javax.swing.JPanel {
         double[][] itMatrix = ui.nextIteration();
         fillMatrix(itMatrix);
         labTitleIteration.setText("Iteration: "+ ui.actualIteration());
+        labSolutionOrOperation.setText(ui.getOperations());
         if(ui.getSolution() != null){
             butNext.setEnabled(false);
             labTitleSO.setText("Solution: ");
@@ -178,11 +179,13 @@ public class PanelSolution extends javax.swing.JPanel {
             butNext.setEnabled(true);
             fillMatrix(ui.lastIteration());
             labTitleIteration.setText("Iteration: "+ ui.actualIteration());
+            labSolutionOrOperation.setText(ui.getOperations());
         }
     }//GEN-LAST:event_butBackActionPerformed
 
     public void fillMatrix(double[][] itMatrix){
-        TabMatrix = new JTable(itMatrix.length, itMatrix[0].length+1);
+        TabMatrix = new JTable(itMatrix.length, itMatrix[0].length+2);
+        double[] theta = ui.getThetaColumn();
         JTableHeader tableHeader = TabMatrix.getTableHeader();
         TableColumnModel tableColumnModel = tableHeader.getColumnModel();
         String[] varNames = ui.getVarNames();
@@ -191,14 +194,17 @@ public class PanelSolution extends javax.swing.JPanel {
                 tableColumnModel.getColumn(j).setHeaderValue(varNames[j-1]);
             }
                 tableColumnModel.getColumn(itMatrix[0].length).setHeaderValue("RHS");
+                if(theta != null)
+                tableColumnModel.getColumn(itMatrix[0].length+1).setHeaderValue("Theta");
                 tableHeader.repaint();
                 TabMatrix.setValueAt(1.00, 0, 0);
         for (int i = 0; i < itMatrix.length; i++) {
             if(i>0)
                 TabMatrix.setValueAt(0, i, 0);
-            for (int j = 1; j < TabMatrix.getColumnCount(); j++) {
+            for (int j = 1; j < TabMatrix.getColumnCount()-1; j++) {
                 TabMatrix.setValueAt(itMatrix[i][j-1], i, j);
             }
+            TabMatrix.setValueAt(theta[i], i, TabMatrix.getColumnCount()-1);
         }
         jScrollPane1.setViewportView(TabMatrix);
         if(ui.getResultType() != null)

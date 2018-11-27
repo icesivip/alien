@@ -46,6 +46,8 @@ public class Simplex implements Solver{
         private String messageSolution;
         private int iterationID;
         private String[] initialM;
+        private String operationsDone;
+        private double [] theta;
         
         public Simplex(String opti, String[] equations) {
             initialM = equations;
@@ -65,6 +67,7 @@ public class Simplex implements Solver{
          * @return Una matriz completa que corresponde al resultado de la iteración
          */
         public double[][] nextIteration () {
+            operationsDone = "";
             if(quotientTest()){
              internalteration(model.getType().equals(Model.MAXIMIZE));
              iterationID++;
@@ -307,9 +310,10 @@ public class Simplex implements Solver{
                 posMasG = i;
             }
         }
+        operationsDone += "La variable " + model.getVariableAt(posMasG).getName() + " entra a base.";
         if(masGrande != 0)
             procd = true;
-        double[] theta = new double[Base.length];
+        theta = new double[Base.length];
         double rowLow = Double.MAX_VALUE;
         int posLow = -1;
         if(procd){
@@ -320,8 +324,10 @@ public class Simplex implements Solver{
                 posLow = i;
             }
         }
-        if(posLow != -1)
+        if(posLow != -1){
         Base[posLow] = posMasG;
+        operationsDone += " La variable " + model.getVariableAt(posLow + nVarDecision).getName() + " sale de base";
+        }
         else procd = false;
         for (int i = 0; i < Base.length; i++) {
                 System.out.println(Base[i]);
@@ -458,6 +464,8 @@ public class Simplex implements Solver{
     public String getSolutionInWords() {
         if(solution!= null)
         return solution.toString();
+//        model.get
+//        solution.
         else return null;
     }
 
@@ -470,5 +478,13 @@ public class Simplex implements Solver{
 
     public double[][] getActualMatrix() {
         return Final.getArray();
+    }
+
+    public String getOperationsDone() {
+        return operationsDone;
+    }
+
+    public double[] getTheta() {
+        return theta;
     }
 }
