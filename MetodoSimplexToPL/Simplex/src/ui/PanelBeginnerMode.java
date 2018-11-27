@@ -15,7 +15,7 @@ import javax.swing.*;
  *
  * @author Luis
  */
-public class PanelEquations extends JPanel implements ActionListener {
+public class PanelBeginnerMode extends JPanel implements ActionListener {
 
     private LinealProgrammingInterface ui;
     String title;
@@ -33,10 +33,10 @@ public class PanelEquations extends JPanel implements ActionListener {
      * Creates new form PanelEquations nCons is the number of Constrains,
      * without counting the objective function
      */
-    public PanelEquations(LinealProgrammingInterface ui, String nVar, String nConstr, String optim, JFrame actual) {
+    public PanelBeginnerMode(LinealProgrammingInterface ui, String nVar, String nConstr, String optim, JFrame actual) {
         enVista = actual;
         initComponents();
-        butOptimize.setText(optim);
+        labOptimization.setText(optim);
         panConstraints = new PanelVariable[Integer.parseInt(nConstr)][Integer.parseInt(nVar) + 1];
         JLabel panelZ = new JLabel("Z");
         panelOF.setLayout(new GridLayout(1, 0));
@@ -87,7 +87,9 @@ public class PanelEquations extends JPanel implements ActionListener {
         labCons = new javax.swing.JLabel();
         panelOF = new javax.swing.JPanel();
         panelCons = new javax.swing.JPanel();
-        butOptimize = new javax.swing.JButton();
+        butFinalSolution = new javax.swing.JButton();
+        butStepByStep = new javax.swing.JButton();
+        labOptimization = new javax.swing.JLabel();
 
         labOF.setText("Objective Function:");
 
@@ -119,12 +121,21 @@ public class PanelEquations extends JPanel implements ActionListener {
             .addGap(0, 139, Short.MAX_VALUE)
         );
 
-        butOptimize.setText("Max/Min");
-        butOptimize.addActionListener(new java.awt.event.ActionListener() {
+        butFinalSolution.setText("Final solution");
+        butFinalSolution.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                butOptimizeActionPerformed(evt);
+                butFinalSolutionActionPerformed(evt);
             }
         });
+
+        butStepByStep.setText("Step by step");
+        butStepByStep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butStepByStepActionPerformed(evt);
+            }
+        });
+
+        labOptimization.setText("Max/Min");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -132,7 +143,15 @@ public class PanelEquations extends JPanel implements ActionListener {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(labOptimization)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(butStepByStep)
+                        .addGap(18, 18, 18)
+                        .addComponent(butFinalSolution)
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(labOF)
@@ -140,10 +159,6 @@ public class PanelEquations extends JPanel implements ActionListener {
                         .addGap(6, 6, 6)
                         .addComponent(panelOF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(panelCons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(butOptimize)
-                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -157,13 +172,43 @@ public class PanelEquations extends JPanel implements ActionListener {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(panelCons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(butOptimize)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(butFinalSolution)
+                    .addComponent(butStepByStep)
+                    .addComponent(labOptimization))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void butOptimizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butOptimizeActionPerformed
+    private void butFinalSolutionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butFinalSolutionActionPerformed
         String[] equations = new String[txtEqualities.length + 1];
+        preStepSolution(equations);
+        PanelSolution panelS = new PanelSolution(ui, equations, panVarsObjectiveE.length);
+        JFrame ventana = new JFrame();
+        ventana.setVisible(true);
+        ventana.setTitle(enVista.getTitle());
+        enVista.setVisible(false);
+        ventana.add(panelS);
+        ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ventana.pack();
+        ui.FinalSolution(equations, labOptimization.getText());
+    }//GEN-LAST:event_butFinalSolutionActionPerformed
+
+    private void butStepByStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butStepByStepActionPerformed
+       String[] equations = new String[txtEqualities.length + 1];
+        preStepSolution(equations);
+        ui.InitializeProcess(equations, labOptimization.getText());
+        PanelSolution panelS = new PanelSolution(ui, equations, panVarsObjectiveE.length);
+        JFrame ventana = new JFrame();
+        ventana.setVisible(true);
+        ventana.setTitle(enVista.getTitle());
+        enVista.setVisible(false);
+        ventana.add(panelS);
+        ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ventana.pack();
+    }//GEN-LAST:event_butStepByStepActionPerformed
+
+private void preStepSolution(String[]equations) {
         //convierte la ecuación objetivo a la forma matricial
         equations[0] = "+1 Z";
         for (int i = 0; i < panVarsObjectiveE.length; i++) {
@@ -193,22 +238,13 @@ public class PanelEquations extends JPanel implements ActionListener {
             }
             equations[i + 1] += " " + combSymbols[i].getSelectedItem() +" " + txtEqualities[i].getText();
         }
-        PanelSolution panelS = new PanelSolution(ui, equations, panVarsObjectiveE.length);
-        ui.InitializeProcess(equations, butOptimize.getText());
-        JFrame ventana = new JFrame();
-        ventana.setVisible(true);
-        ventana.setTitle(enVista.getTitle());
-        enVista.setVisible(false);
-        ventana.add(panelS);
-        ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ventana.pack();
-    }//GEN-LAST:event_butOptimizeActionPerformed
-
-
+}
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton butOptimize;
+    private javax.swing.JButton butFinalSolution;
+    private javax.swing.JButton butStepByStep;
     private javax.swing.JLabel labCons;
     private javax.swing.JLabel labOF;
+    private javax.swing.JLabel labOptimization;
     private javax.swing.JPanel panelCons;
     private javax.swing.JPanel panelOF;
     // End of variables declaration//GEN-END:variables

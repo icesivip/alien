@@ -113,6 +113,11 @@ public class PanelSolution extends javax.swing.JPanel {
         });
 
         butBack.setText("Back");
+        butBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butBackActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -155,6 +160,15 @@ public class PanelSolution extends javax.swing.JPanel {
 
     private void butNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butNextActionPerformed
         double[][] itMatrix = ui.nextIteration();
+        fillMatrix(itMatrix);
+    }//GEN-LAST:event_butNextActionPerformed
+
+    private void butBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butBackActionPerformed
+        double[][] itMatrix = ui.lastIteration();
+        fillMatrix(itMatrix);
+    }//GEN-LAST:event_butBackActionPerformed
+
+    private void fillMatrix(double[][] itMatrix){
         TabMatrix = new JTable(itMatrix.length, itMatrix[0].length+1);
         JTableHeader tableHeader = TabMatrix.getTableHeader();
         TableColumnModel tableColumnModel = tableHeader.getColumnModel();
@@ -175,8 +189,7 @@ public class PanelSolution extends javax.swing.JPanel {
         jScrollPane1.setViewportView(TabMatrix);
         if(ui.getResultType() != null)
             JOptionPane.showMessageDialog(this, ui.getResultType());
-    }//GEN-LAST:event_butNextActionPerformed
-
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TabMatrix;

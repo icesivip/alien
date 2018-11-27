@@ -404,15 +404,8 @@ public class Simplex implements Solver{
 
     @Override
     public Solution solve(Model model) {
-        
         calculateInitialBase();
         internalteration(model.getType().equals(Model.MAXIMIZE));
-//        double[][] finalFinal = null;
-//        double[][] sig = nextIteration();
-//        while(finalFinal != sig){
-//            finalFinal = sig;
-//            sig = nextIteration();
-//        }
         return solution;
     }
 
@@ -425,7 +418,8 @@ public class Simplex implements Solver{
                 }
             if(model.getVariableAt(i).getName().startsWith("X"))
                 if(solution.getVariableValue(model.getVariableAt(i)) == 0)
-                    return "Infinite solutions!";
+                    if(Final.getArray()[0][i] == 0)
+                        return "Infinite solutions!";
             if((model.getType().equals(Model.MAXIMIZE) && Final.getArray()[0][i] <0) || (model.getType().equals(Model.MINIMIZE) && Final.getArray()[0][i] > 0))
                 return "Solution not bounded";
         }
@@ -441,5 +435,15 @@ public class Simplex implements Solver{
         for (int i = 0; i < model.getVariableCount(); i++) 
             vars[i] = model.getVariableAt(i).getName();
         return vars;
+    }
+
+    public double [][] getFinalSolution() {
+        double[][] finalFinal = null;
+        double[][] sig = nextIteration();
+        while(finalFinal != sig){
+            finalFinal = sig;
+            sig = nextIteration();
+        }
+        return sig;
     }
 }
