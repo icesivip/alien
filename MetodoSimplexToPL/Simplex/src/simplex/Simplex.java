@@ -44,8 +44,12 @@ public class Simplex implements Solver{
         private int nVarDecision;
         private Solution solution;
         private String messageSolution;
+        private int iterationID;
+        private String[] initialM;
         
         public Simplex(String opti, String[] equations) {
+            initialM = equations;
+            iterationID = 0;
         String [] caracteres = equations[0].split(" ");
 //      -2 del 1 z y -2 del = C. No se divide entre 2 por las variables de holgura
         nVarDecision = caracteres.length/2-2;
@@ -63,7 +67,8 @@ public class Simplex implements Solver{
         public double[][] nextIteration () {
             if(quotientTest()){
              internalteration(model.getType().equals(Model.MAXIMIZE));
-             Final.print(2,2);
+             iterationID++;
+//             Final.print(2,2);
             }
             else {
            double[][] array = Final.getMatrix(0, Final.getRowDimension()-1, 0, Final.getColumnDimension()-2).getArray();
@@ -430,6 +435,9 @@ public class Simplex implements Solver{
         return messageSolution;
     }
     
+    public String[] getInitialM () {
+        return initialM;
+    }
     public String[] getEveryVariableName() {
         String[] vars = new String[model.getVariableCount()];
         for (int i = 0; i < model.getVariableCount(); i++) 
@@ -445,5 +453,22 @@ public class Simplex implements Solver{
             sig = nextIteration();
         }
         return sig;
+    }
+
+    public String getSolutionInWords() {
+        if(solution!= null)
+        return solution.toString();
+        else return null;
+    }
+
+    public String getCriterion() {
+        return model.getType();
+    }
+    public int getIterationID() {
+        return iterationID;
+    }
+
+    public double[][] getActualMatrix() {
+        return Final.getArray();
     }
 }

@@ -17,11 +17,13 @@ public class LinealProgrammingInterface extends javax.swing.JFrame {
 
     private Simplex simplex;
     private String mode;
+    private JFrame mainMenu;
     /**
      * Creates new form Frame
      */
-    public LinealProgrammingInterface() {
+    public LinealProgrammingInterface(JFrame last) {
         initComponents();
+        mainMenu = last;
     }
 
     /**
@@ -43,12 +45,11 @@ public class LinealProgrammingInterface extends javax.swing.JFrame {
         combOptim = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         txtNCons = new javax.swing.JTextField();
+        butBack = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setText("Problem Title:");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 14, -1, -1));
 
         txtTitle.setName("txtTitle"); // NOI18N
         txtTitle.addActionListener(new java.awt.event.ActionListener() {
@@ -56,14 +57,10 @@ public class LinealProgrammingInterface extends javax.swing.JFrame {
                 txtTitleActionPerformed(evt);
             }
         });
-        getContentPane().add(txtTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 11, 206, -1));
-        getContentPane().add(txtNVariables, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 50, 41, -1));
 
         jLabel2.setText("Objective Criterion");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(193, 52, -1, -1));
 
         jLabel3.setText("Number of Variables:");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 52, -1, -1));
 
         jButton1.setText("Accept");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -71,13 +68,10 @@ public class LinealProgrammingInterface extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(302, 116, -1, -1));
 
         combOptim.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Maximize", "Minimize" }));
-        getContentPane().add(combOptim, new org.netbeans.lib.awtextra.AbsoluteConstraints(293, 49, -1, -1));
 
         jLabel4.setText("Number of Constraints:");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 93, -1, -1));
 
         txtNCons.setName("txtConstraints"); // NOI18N
         txtNCons.addActionListener(new java.awt.event.ActionListener() {
@@ -85,7 +79,72 @@ public class LinealProgrammingInterface extends javax.swing.JFrame {
                 txtNConsActionPerformed(evt);
             }
         });
-        getContentPane().add(txtNCons, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 90, 41, -1));
+
+        butBack.setText("Back");
+        butBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butBackActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(30, 30, 30)
+                        .addComponent(txtNVariables, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(65, 65, 65)
+                        .addComponent(txtTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel2))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(butBack)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton1)
+                                .addGap(54, 54, 54))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(combOptim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(txtNCons)
+                                    .addGap(18, 18, 18))))))
+                .addContainerGap(40, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtNVariables, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtNCons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(combOptim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(butBack))
+                .addContainerGap())
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -99,10 +158,10 @@ public class LinealProgrammingInterface extends javax.swing.JFrame {
         PanelBeginnerMode panelB;
         PanelAdvanceMode panelA;
         if(mode.equals("Beginner")){
-            panelB = new PanelBeginnerMode(this, txtNVariables.getText(), txtNCons.getText(), (String)combOptim.getSelectedItem(), ventana);
+            panelB = new PanelBeginnerMode(this, txtNVariables.getText(), txtNCons.getText(), (String)combOptim.getSelectedItem(), ventana, this);
             ventana.add(panelB);
         } else {
-            panelA = new PanelAdvanceMode(this, txtNVariables.getText(), txtNCons.getText(), (String)combOptim.getSelectedItem(), ventana);
+            panelA = new PanelAdvanceMode(this, txtNVariables.getText(), txtNCons.getText(), (String)combOptim.getSelectedItem(), ventana, this);
             ventana.add(panelA);
         }
         ventana.setVisible(true);
@@ -115,6 +174,11 @@ public class LinealProgrammingInterface extends javax.swing.JFrame {
     private void txtNConsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNConsActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNConsActionPerformed
+
+    private void butBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butBackActionPerformed
+        mainMenu.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_butBackActionPerformed
 
     /**
      * @param args the command line arguments
@@ -148,7 +212,7 @@ public class LinealProgrammingInterface extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 JFrame frame = new JFrame();
-                LinealProgrammingInterface ui = new LinealProgrammingInterface();
+                LinealProgrammingInterface ui = new LinealProgrammingInterface(frame);
                 PanelBanner ban = new PanelBanner(ui, frame);
                 frame.add(ban);
                 frame.pack();
@@ -159,6 +223,7 @@ public class LinealProgrammingInterface extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton butBack;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> combOptim;
     private javax.swing.JButton jButton1;
@@ -178,7 +243,9 @@ public class LinealProgrammingInterface extends javax.swing.JFrame {
     double[][] nextIteration() {
         return simplex.nextIteration();
     }
-    
+    public int actualIteration() {
+        return simplex.getIterationID();
+    }
     public String getResultType() {
         return simplex.getMessageSol();
     }
@@ -191,13 +258,22 @@ public class LinealProgrammingInterface extends javax.swing.JFrame {
         this.mode = mode;
     }
 
-    void FinalSolution(String[] equations, String opti) {
+    double[][] FinalSolution(String[] equations, String opti) {
         simplex = new Simplex(opti, equations);
-        simplex.getFinalSolution();
+        return simplex.getFinalSolution();
     }
 
     double[][] lastIteration() {
-        
-        return null;
+        int iteration = simplex.getIterationID()-1;
+        simplex = new Simplex(simplex.getCriterion(), simplex.getInitialM());
+        double[][] alv = simplex.getActualMatrix();
+        for (int i = 0; i < iteration; i++) {
+            alv = nextIteration();
+        }
+        return alv;
+    }
+
+    String getSolution() {
+        return simplex.getSolutionInWords();
     }
 }
