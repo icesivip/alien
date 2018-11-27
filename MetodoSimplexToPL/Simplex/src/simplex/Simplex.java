@@ -462,18 +462,19 @@ public class Simplex implements Solver{
     }
 
    public String getSolutionInWords() {
-        StringBuilder sb = new StringBuilder("");
+        StringBuilder sb = new StringBuilder("<html><body>");
         if(solution!= null && model != null){
              try {
             for (int i = 0; i < model.getVariableCount(); i++) {
                
                     sb.append(model.getVariableAt(i).getName()+" = ");
                     sb.append(solution.getVariableValue(model.getVariableAt(i)));
-                    sb.append(" ");
+                    sb.append("<br>");
                      
             }
             sb.append("Z = ");
             sb.append(solution.getObjectiveFunctionValue());
+            sb.append("</body></html>");
             } catch (Exception ex) {
                     Logger.getLogger(Simplex.class.getName()).log(Level.SEVERE, null, ex);
                 }  
