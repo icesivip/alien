@@ -120,7 +120,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="labSolutionOrOperation">
           <Properties>
-            <Property name="text" type="java.lang.String" value="In process"/>
+            <Property name="text" type="java.lang.String" value="Fill the table"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">

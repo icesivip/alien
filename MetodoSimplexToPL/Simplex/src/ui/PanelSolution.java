@@ -104,7 +104,7 @@ public class PanelSolution extends javax.swing.JPanel {
         labTitleSO.setText("Operations: ");
         panOperations.add(labTitleSO, java.awt.BorderLayout.LINE_START);
 
-        labSolutionOrOperation.setText("In process");
+        labSolutionOrOperation.setText("Fill the table");
         panOperations.add(labSolutionOrOperation, java.awt.BorderLayout.CENTER);
 
         butNext.setText("Next");
@@ -159,14 +159,18 @@ public class PanelSolution extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void butNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butNextActionPerformed
+        if(butNext.getText().equals("Next")){
         double[][] itMatrix = ui.nextIteration();
         fillMatrix(itMatrix);
         labTitleIteration.setText("Iteration: "+ ui.actualIteration());
         labSolutionOrOperation.setText(ui.getOperations());
         if(!ui.getSolution().equals("<html><body>")){
-            butNext.setEnabled(false);
+            butNext.setText("Sensitivity analysis");
             labTitleSO.setText("Solution: ");
             labSolutionOrOperation.setText(ui.getSolution());
+        }
+        } else {
+            //to be continue...
         }
         actual.pack();
     }//GEN-LAST:event_butNextActionPerformed
@@ -176,7 +180,7 @@ public class PanelSolution extends javax.swing.JPanel {
             actual.dispose();
             last.setVisible(true);
         } else{
-            butNext.setEnabled(true);
+            butNext.setText("Next");
             fillMatrix(ui.lastIteration());
             labTitleIteration.setText("Iteration: "+ ui.actualIteration());
             labSolutionOrOperation.setText(ui.getOperations());
@@ -184,8 +188,8 @@ public class PanelSolution extends javax.swing.JPanel {
     }//GEN-LAST:event_butBackActionPerformed
 
     public void fillMatrix(double[][] itMatrix){
-        TabMatrix = new JTable(itMatrix.length, itMatrix[0].length+1);
-//        double[] theta = ui.getThetaColumn();
+        TabMatrix = new JTable(itMatrix.length, itMatrix[0].length+2);
+        double[] theta = ui.getThetaColumn();
         JTableHeader tableHeader = TabMatrix.getTableHeader();
         TableColumnModel tableColumnModel = tableHeader.getColumnModel();
         String[] varNames = ui.getVarNames();
@@ -194,22 +198,24 @@ public class PanelSolution extends javax.swing.JPanel {
                 tableColumnModel.getColumn(j).setHeaderValue(varNames[j-1]);
             }
                 tableColumnModel.getColumn(itMatrix[0].length).setHeaderValue("RHS");
-//                if(theta != null)
-//                tableColumnModel.getColumn(itMatrix[0].length+1).setHeaderValue("Theta");
+                if(theta != null)
+                tableColumnModel.getColumn(itMatrix[0].length+1).setHeaderValue("Theta");
                 tableHeader.repaint();
                 TabMatrix.setValueAt(1.00, 0, 0);
         for (int i = 0; i < itMatrix.length; i++) {
-            if(i>0)
+            if(i>0){
                 TabMatrix.setValueAt(0, i, 0);
-            for (int j = 1; j < TabMatrix.getColumnCount(); j++) {
+                if(theta!= null)
+                TabMatrix.setValueAt(theta[i-1], i, TabMatrix.getColumnCount()-1);
+            }
+            for (int j = 1; j < TabMatrix.getColumnCount()-1; j++) {
                 TabMatrix.setValueAt(itMatrix[i][j-1], i, j);
             }
-//            if(theta!= null){
-//                for (int j = 0; j < theta.length; j++) {
-//                    System.out.println(theta[j]);
-//                }
-//            TabMatrix.setValueAt(theta[i], i, TabMatrix.getColumnCount()-1);
-//            }
+            if(theta!= null){
+                for (int j = 0; j < theta.length; j++) {
+                    System.out.println(theta[j]);
+                }
+            }
         }
         jScrollPane1.setViewportView(TabMatrix);
         if(ui.getResultType() != null)
