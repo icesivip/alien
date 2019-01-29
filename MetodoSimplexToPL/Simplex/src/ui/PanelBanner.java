@@ -65,12 +65,14 @@ public class PanelBanner extends javax.swing.JPanel {
         });
         add(butAdvanced, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 370, 110, 40));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Luis\\Documents\\GitHub\\alien\\MetodoSimplexToPL\\Simplex\\data\\Simplex portada.jpg")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Simplex portada.jpg"))); // NOI18N
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void butBeginnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butBeginnerActionPerformed
         ui.setMode("Beginner");
+        ui.setLocationRelativeTo(null);
+        ui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ui.setVisible(true);
         ui.setTitle("SIMPOD-Beginner mode");
         actual.setVisible(false);
@@ -78,6 +80,8 @@ public class PanelBanner extends javax.swing.JPanel {
 
     private void butAdvancedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butAdvancedActionPerformed
         ui.setMode("Advanced");
+        ui.setLocationRelativeTo(null);
+        ui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ui.setVisible(true);
         ui.setTitle("SIMPOD-Advanced mode");
         actual.setVisible(false);

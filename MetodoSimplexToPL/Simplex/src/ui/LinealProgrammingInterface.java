@@ -167,6 +167,7 @@ public class LinealProgrammingInterface extends javax.swing.JFrame {
         ventana.setVisible(true);
         ventana.setTitle(txtTitle.getText());
         this.setVisible(false);
+        ventana.setLocationRelativeTo(null);
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ventana.pack();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -217,6 +218,8 @@ public class LinealProgrammingInterface extends javax.swing.JFrame {
                 frame.add(ban);
                 frame.pack();
                 frame.setVisible(true);
+                frame.setLocationRelativeTo(null);
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setTitle("SIMPOD");
             }
         });

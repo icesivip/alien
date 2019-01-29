@@ -254,6 +254,7 @@ private void posStepSolution (PanelSolution panelS, JFrame ventana) {
         ventana.setTitle(enVista.getTitle());
         enVista.setVisible(false);
         ventana.add(panelS);
+        ventana.setLocationRelativeTo(null);
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ventana.pack();
 }
