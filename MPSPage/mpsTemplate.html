@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!--Shit + alt + f-->
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/bootstrap.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <table class="table">
+                <thead>
+                    <tr class="bg-primary">
+                        <th colspan="12" scope="col" class="text-center">MPS</th>
+                    </tr>
+                    <tr class="bg-primary">
+                        <th scope="col">Period</th>
+                        <th scope="col">1</th>
+                        <th scope="col">2</th>
+                        <th scope="col">3</th>
+                        <th scope="col">4</th>
+                        <th scope="col">5</th>
+                        <th scope="col">6</th>
+                        <th scope="col">7</th>
+                        <th scope="col">8</th>
+                        <th scope="col">9</th>
+                        <th scope="col">10</th>
+                        <th scope="col">...</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th class="bg-primary" scope="row">Gross Requeriments</th>
+                    </tr>
+                    <tr>
+                        <th class="bg-primary" scope="row">Scheduled Receptions</th>
+                    </tr>
+                    <tr>
+                        <th class="bg-primary" scope="row">Available Inventory Programmed</th>
+                    </tr>
+                    <tr>
+                        <th class="bg-primary" scope="row">Net requirements</th>
+                    </tr>
+                    <tr>
+                        <th class="bg-primary" scope="row">Receptions of planned orders</th>
+                    </tr>
+                    <tr>
+                        <th class="bg-primary" scope="row">Release of planned orders</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="input-group mb-3 flex-nowrap">
+                    <input class="form-control" id="itemName" type="text" name="itemName" placeholder="Name of the item" required>
+                </div>
+                <div class="input-group mb-3 flex-nowrap">
+                    <input class="form-control" id="levelCode" type="text" name="levelCode" placeholder="Level code" required>
+                </div>
+                <div class="input-group mb-3 flex-nowrap">
+                    <input class="form-control" id="initialInventory" type="text" name="initialInventory" placeholder="Initial inventory" required>
+                </div>
+                <div class="input-group mb-3 flex-nowrap">
+                    <input class="form-control" id="leadTime" type="text" name="leadTime" placeholder="Lead time" required>
+                </div>
+            </div>
+            <div class="col">
+                <div class="input-group mb-3 flex-nowrap">
+                    <input class="form-control" id="maintenanceCost" type="text" name="maintenanceCost" placeholder="Maintenance cost" required>
+                </div>
+                <div class="input-group mb-3 flex-nowrap">
+                    <input class="form-control" id="orderingCost" type="text" name="orderingCost" placeholder="Cost of ordering" required>
+                </div>
+                <div class="input-group mb-3 flex-nowrap">
+                    <select class="text-dark custom-select bg-success" id="lotSizingRule" required>
+                        <option value="" name="lotSizingRule" disabled selected hidden>Lot sizing rule</option>
+                        <option name="lotxlot">LotxLot</option>
+                        <option name="another">Another</option>
+                    </select>
+                </div>
+                <div class="input-group mb-3 flex-nowrap">
+                    <select class="custom-select bg-success" id="levelOfDetail" required>
+                        <option value="" name="levelOfDetail" disabled selected hidden>Level of detail</option>
+                        <option name="High">High</option>
+                        <option name="Low">Low</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="input-group mb-3 flex-nowrap">
+                    <label >Others options:</label>
+                </div>
+                <div class="input-group mb-3 flex-nowrap">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <input id="makeTotalCosts" name="otherOptions" type="checkbox" value="makeTotalCosts">
+                        </div>
+                    </div>
+                    <input type="text" class="text-dark form-control bg-success" value="Total costs" readonly>
+                </div>
+                <div class="input-group mb-3 flex-nowrap">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <input id="makePerformanceIndicators" name="otherOptions" type="checkbox" value="makePerformanceIndicators">
+                        </div>
+                    </div>
+                    <input type="text" class="text-dark form-control bg-success" value="Indicators of performance" readonly>
+                </div>
+                <div class="input-group-append mb-3 flex-nowrap justify-content-end">
+                    <input class="btn btn-outline-primary" id="calculate" type="submit" name="calculate" value="Calculate">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
