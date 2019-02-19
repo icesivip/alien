@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>PAGINA INTRODUCTORIA</title> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <!----> <link rel="stylesheet" href="css/bootstrap.min.css">
+       <link rel="stylesheet" href="colorAndBorder.css">
+       <link rel="stylesheet" href="sidenavStyles.css">
+    </head>
+    <body class="bs-docs-home">
+        <div class="full.width carousel">
+                <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                        <!-- Indicators -->
+                        <ol class="carousel-indicators">
+                          <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                        </ol>
+                        <!-- Wrapper for slides -->
+                        <div class="carousel-inner" role="listbox">
+                          <div class="item active">
+                              <center>
+                                    <img src="Banner2.png" alt="Banner1">
+                              </center>
+                           
+                            <div class="carousel-caption">
+
+                            </div>
+                          </div>
+                          
+                        </div>
+                      
+                        <!-- Controls -->
+                        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                          <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                          <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                          <span class="sr-only">Next</span>
+                        </a>
+                      </div>
+        </div>
+        <!--AQUÍ TERMINA EL CODIGO DEL CARUSEL-->
+        
+          <!--AQUÍ INICIA EL CODIGO NAV TOP-->
+          <div class="full.width">
+                    <div class="sidenav"  id="mySidenav">
+                            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                            <nav id="bs-navbar" class="collapse navbar-collapse">
+                
+                                    <ul class="nav navbar-nav">
+                                        <li class>
+                                              <a class="linkNavColor" href="#summary">MRP Material Requirement Planning</a> 
+                                        </li>
+                                        <li class>
+                                                <a class="linkNavColor"href="#summary">MPS (Master production schedule)</a> 
+                                        </li>
+                                        <li class>
+                                                <a class="linkNavColor"href="#summary">Lot sizing rules</a> 
+                                        </li>
+                                        <li class>
+                                                <a class="linkNavColor"href="#summary">Graphical Method</a> 
+                                        </li>
+                                        <li class>
+                                                <a class="linkNavColor"href="#summary">SIMPLEX method</a> 
+                                        </li>
+                                        <li class>
+                                                <a class="linkNavColor" href="#summary">Code Conventions for VIP Projects: Java</a> 
+                                        </li>
+                                        <li class>
+                                                <a class="linkNavColor" href="#summary">Branch and Bound Method</a> 
+                                        </li>   
+                                        <li class>
+                                                <a class="linkNavColor" href="#summary">Java implementation</a> 
+                                        </li>     
+                                        <li class>
+                                                <a class="linkNavColor"href="https://github.com/icesivip/alien">Git Hub</a> 
+                                           
+                                        </li>     
+                                    </ul>
+                                
+                                </nav> 
+                    </div>
+                    <span class="btn btn-primary btn-lg colorButton"  onclick="openNav()">&#9776; Enlaces</span>
+                    <script>
+                            function openNav() {
+                              document.getElementById("mySidenav").style.width = "100%";
+                              document.getElementById("pushTest").style.marginTop = "100px";
+                            }
+                            
+                            function closeNav() {
+                              document.getElementById("mySidenav").style.width = "0";
+                              document.getElementById("pushTest").style.marginTop = "0px";
+                            }
+                            </script>
+    
+            </div>
+        
+              <!--AQUÍ TERMINA EL CODIGO DEL NAV TOP-->
+        
+        <div class="container-fluid" id="pushTest"> 
+            <div class="row"  id="mainContainer">
+                    <div class="col-md-9" role="main">
+                        <center>       
+                            
+                            <h1 class="principalTitle" >Master Production Schedule and Lot Sizing rules</h1>
+                            <hr class="half-rule">
+
+                            <div class="bs-docs-featurette Teem">
+                                <h2 class="bs-docs-featurette-title">Team members</h3>
+                                <img class="imagenTeam"src="team.png" alt="Team">
+                                <p class="lead">Joan David Colina</p>
+                                <p class="lead">Jeison David Mejia</p>
+                                <p class="lead">Santiago Zuñiga </p>
+                                <p class="lead">Nataly Tapasco</p>
+                            </div>
+                            <div class="summary">
+                                <h2 class="bs-docs-featurette-title" id="summary">Summary</h2>
+                                <p class="lead">This project aims at helping to improve teaching and learning process on 
+                                    how to construct a Master Plan Schedule by means of an intuitive and powerful graphic tool. 
+                                    In order to achieve this, a software product that may be used in the academy, by both teachers 
+                                    and students will be developed.</p>
+                            </div>
+                            
+                            <div class="Research_Problem">
+
+                                <h2 class="bs-docs-featurette-title"id="research">Research Problem</h2>
+                                <p class="lead">There are few tools that allow the creation of a Master Plan Schedule based on differents lot sizing rules that support learning processes.</p>
+                            </div>
+
+                            <div class="Justification">
+                                <h2 class="bs-docs-featurette-title" id="justification">Justification</h2>
+                                <p class="lead">Currently, universities use diverse tools for the creation of a Master Plan Schedule through some of the existing batching techniques.</p>
+                                <p class="lead">These tools are only focus on showing results, not taking into account the intermediate process and important concepts of it.</p>
+                                <p class="lead">This implies that the impact of the tools in the learning process ends up being little.</p>
+                            </div>
+
+                            <div class="Objective">
+
+                                <h2 class="bs-docs-featurette-title" id="objective">Objective</h2>
+                                <p class="lead">Develop a software tool for the elaboration of a Master Plan Schedule through different lot sizing rules, which can be used by students and teachers.</p>
+                            
+                          
+                            
+
+                                <h2 class="bs-docs-featurette-title">Specific Objectives</h2>
+                                <p class="lead">Develop a system able to determine, based in a method for lot sizing, the specific amount of units to produce (or to order) and the specific period in which it must be carried out.</p>
+                                <p class="lead">Implement a system that allows the creation of a Master Plan Schedule that is integrated with the previously proposed system, and from it extracts the necessary inputs for its solution.</p>
+                                <p class="lead">Keep the project within reach of anyone who considers that this may be useful. Regardless if it&rsquo;s for development or research purpose.&lt;li&gt;</p>
+                            </div>
+                            
+                          
+                            <div class="Methodology">
+
+                                <h2 class="bs-docs-featurette-title"id="methodology">Methodology</h2>
+                                <h3>Evolutionary Development with the following phases:</h3>
+                                
+                                <p class="lead">Investigation of the methods to be modeled (MPS and lot sizing rules).</p>
+                                <p class="lead">Investigation of the tools for the realization of the program.</p>
+                                <p class="lead">Design of the tool.</p>
+                                <p class="lead">Construction of the functionality of the tool.</p>
+                                <p class="lead">Implementation of tests.</p>
+                                <p class="lead">Integration of the new prototype with the ones that were implemented before.</p>
+                            </div>
+                            
+                            <div class="Expected_Results">
+
+                                <h2 class="bs-docs-featurette-title" id="expected">Expected Results</h2>
+                                
+                                <p class="lead">The software allows to build a Master Plan Schedule, through the implementation of different lot sizing rules.</p>
+                                <p class="lead">The software may be used by another system as input for the generation of a Material Requirements Planning.</p>
+                                <p class="lead">The software is intuitive to use.</p>
+                            </div>
+                            
+                            <div class="Importance">
+
+                                <h2 class="bs-docs-featurette-title" id="importance">Importance</h2>
+                                <p>The software is useful in the academic field, since it allows:</p>
+                                
+                                <p class="lead">Students to reinforce concepts related to MPS and lot sizing rules.</p>
+                                <p class="lead">Students to understand the process that must be followed to use a lot sizing method or to create a MPS.</p>
+                                <p class="lead">Teachers to design new teaching strategies from this.</p>
+                            </div>
+                            
+                        </center>
+                    </div>
+                    <div class="col-md-3"role="complementary">
+                        <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="test">
+                    <ul class="nav bs-docs-sidenav">
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                    <li class ="navRight"><a href="#summary">General description of the project</a></li>
+                    <li class ="navRight"><a href="#research">Research Problem</a></li>
+                    <li class ="navRight"><a href="#justification">Justification</a></li>
+                    <li class ="navRight"><a href="#objective">Objective</a></li>
+                    <li class ="navRight"><a href="#methodology">Methodology</a></li>
+                    <li class ="navRight"><a href="#expected">Expected Results</a></li>
+                    <li class ="navRight"><a href="#importance">Importance</a></li>
+                    </ul>
+                        </nav>
+                    </div>
+                    </div>
+                </section>
+                
+            </div>
+
+                <section class="container-fluid">
+
+                    <footer class="bs-docs-footer">
+                            <div class="row">
+                         <div class="col-md-6">
+                            <div class="container">
+                                <a title="Los Tejos" href="http://www.icesi.edu.co/"><img class="img-rounded"src="LogoIcesi.png" alt="Iesi" /></a> 
+                            </div>
+                    </div>
+                        <div class="col-md-6">
+                            <h2 class="contactos">CONTACTOS</h2>
+                            <p class="contactos">JOAN DAVID COLINA: joandavidcolina@hotmail.com</p>
+                            <p class="contactos">SANTIAGO ZUÑIGA: santiagoz9907@gmail.com</p>
+                            <p class="contactos">JEISON: correo</p>
+                            <p class="contactos">NATALY: CORREO</p>
+                            
+                        </div>
+                    </div>
+                    </footer>
+                </section>
+        <script src="js/jquery.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="sidenav.js"></script>
+    </body>
+</html>
