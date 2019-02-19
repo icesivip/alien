@@ -49,16 +49,20 @@ public class Simplex implements Solver{
         private String operationsDone;
         private double [] theta;
         
-        public Simplex(String opti, String[] equations) {
+        public Simplex(String opti, String[] equations) throws Exception {
             initialM = equations;
             iterationID = 0;
         String [] caracteres = equations[0].split(" ");
 //      -2 del 1 z y -2 del = C. No se divide entre 2 por las variables de holgura
         nVarDecision = caracteres.length/2-2;
-        
-            generateEquaAndFOMatries(equations, opti);
+            try {
+                generateEquaAndFOMatries(equations, opti);
+            
             generateConstraintsLeftMatrix(equations, model.getType().equals(Model.MAXIMIZE));
             solve(model);
+            } catch (Exception e) {
+            throw new Exception("Characters not allowed");
+            }
 //            System.out.print(isMaximization);
         }
             
@@ -357,11 +361,11 @@ public class Simplex implements Solver{
 //                                           "0 Z 1 X1 1 X2 -1 X3 0 X4 <= 5",
 //                                           "0 Z 6 X1 5 X2 0 X3 -1 X4 <= 10"});
 //             Infinitas soluciones
-            Simplex s = new Simplex("MAXIMIZE", new String[] {"1 Z -60 X1 -35 X2 -20 X3 = 0",
-                                           "0 Z 8 X1 6 X2 1 X3 <= 48",
-                                           "0 Z 4 X1 2 X2 1.5 X3 <= 20",
-                                           "0 Z 2 X1 1.5 X2 0.5 X3 <= 8",
-                                            "0 Z 0 X1 1 X2 0 X3 <= 5"});
+//            Simplex s = new Simplex("MAXIMIZE", new String[] {"1 Z -60 X1 -35 X2 -20 X3 = 0",
+//                                           "0 Z 8 X1 6 X2 1 X3 <= 48",
+//                                           "0 Z 4 X1 2 X2 1.5 X3 <= 20",
+//                                           "0 Z 2 X1 1.5 X2 0.5 X3 <= 8",
+//                                            "0 Z 0 X1 1 X2 0 X3 <= 5"});
     }
 
     private ArrayList <Integer> calculatePosExcess(String[] equations) {

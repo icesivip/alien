@@ -138,6 +138,7 @@ public class PanelAdvanceMode extends javax.swing.JPanel{
 
     private void butSolveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butSolveActionPerformed
 //        tabAdvanced.
+try {
         String[] equations = getInformation();
         double[][] finalMatr = ui.FinalSolution(equations, labCriterion.getText());
         JFrame ventana = new JFrame();
@@ -147,8 +148,12 @@ public class PanelAdvanceMode extends javax.swing.JPanel{
         ventana.setTitle(frame.getTitle());
         frame.setVisible(false);
         ventana.add(panelS);
+        ventana.setLocationRelativeTo(null);
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ventana.pack();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
     }//GEN-LAST:event_butSolveActionPerformed
 
     private void butBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butBackActionPerformed
@@ -156,7 +161,7 @@ public class PanelAdvanceMode extends javax.swing.JPanel{
         frame.dispose();
     }//GEN-LAST:event_butBackActionPerformed
 
-    public String[] getInformation(){
+    public String[] getInformation() throws Exception{
         String[] information = new String[tabAdvanced.getRowCount()];
         for (int i = 0; i < tabAdvanced.getRowCount(); i++){
            
@@ -179,9 +184,12 @@ public class PanelAdvanceMode extends javax.swing.JPanel{
                       }else{
                            if(j < tabAdvanced.getColumnCount()-2){
                               line+=tabAdvanced.getModel().getValueAt(i, j)+ " "+"X"+j+" "; 
-                           }else{
+                           }else if (j==tabAdvanced.getColumnCount()-2){
+                               String eqSymbol = tabAdvanced.getModel().getValueAt(i, j).toString();
+                               if(eqSymbol.equals(">=")||eqSymbol.equals("<=") || eqSymbol.equals("="))
                                 line+=tabAdvanced.getModel().getValueAt(i, j)+" ";
-                           }
+                               else throw new Exception("Símbolos de inecuaciones mal escritas");
+                           } else line+=tabAdvanced.getModel().getValueAt(i, j);
                            
                        }
                 }

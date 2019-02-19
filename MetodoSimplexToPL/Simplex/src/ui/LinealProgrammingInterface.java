@@ -6,7 +6,10 @@
 package ui;
 
 import java.awt.Frame;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import simplex.*;
 
 /**
@@ -240,7 +243,11 @@ public class LinealProgrammingInterface extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     void InitializeProcess(String[] equations, String opti) {
-           simplex = new Simplex(opti, equations);
+        try {
+            simplex = new Simplex(opti, equations);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this,ex.getMessage());
+        }
     }
 
     double[][] nextIteration() {
@@ -262,16 +269,25 @@ public class LinealProgrammingInterface extends javax.swing.JFrame {
     }
 
     double[][] FinalSolution(String[] equations, String opti) {
-        simplex = new Simplex(opti, equations);
+        try {
+            simplex = new Simplex(opti, equations);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this,ex.getMessage());
+        }
         return simplex.getFinalSolution();
     }
 
     double[][] lastIteration() {
-        int iteration = simplex.getIterationID()-1;
-        simplex = new Simplex(simplex.getCriterion(), simplex.getInitialM());
-        double[][] alv = simplex.getActualMatrix();
-        for (int i = 0; i < iteration; i++) {
-            alv = nextIteration();
+        double[][] alv = null;
+        try {
+            int iteration = simplex.getIterationID()-1;
+            simplex = new Simplex(simplex.getCriterion(), simplex.getInitialM());
+            alv = simplex.getActualMatrix();
+            for (int i = 0; i < iteration; i++) {
+                alv = nextIteration();
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this,ex.getMessage());
         }
         return alv;
     }
