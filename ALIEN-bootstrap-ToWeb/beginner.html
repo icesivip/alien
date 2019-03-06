@@ -350,7 +350,7 @@
  
  
   }
-  
+
   
   .btn-icon-split{
     
@@ -372,6 +372,13 @@
             <!-- Nested Row within Card Body -->
             <div class="p-5">
                 <form class="user" id="user">
+                    <h2>Problem Title</h2>
+                    <div class="form-group2">
+                        <div class="col-sm-14 " >
+                            <input type="text" class="form-control form-control-user" id="cTitle" required="">
+                        </div>
+                      </div>
+                      <hr>
                     <h2>Type <span class="label label-default"></span></h2>
 
                     <div class="form-group">
@@ -383,11 +390,32 @@
                         <hr>
 
                     </div>
+                    
+                    <h2>Number of Variables</h2>
+
+                    <div class="form-group row">
+                        <div class="col-sm-2 ">
+                            <input type="number" class="form-control form-control-user" id="cNumber" required="">
+                        </div>
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <a href="startSimplex.html" class="btn btn-success btn-icon-split" >
+                              <span class="icon text-white-50">
+                                <i class="fas fa-check"></i>
+                              </span>
+                              <span class="text">Go!</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <hr>
 
 
                     <h2>Objective Function</h2>
 
                     <div class="form-group row">
+                        <div class="col-sm-0.1">
+                            <h4> Z = </h4>
+                        </div>
                         <div class="col-sm-2 ">
                             <input type="number" class="form-control form-control-user" id="cX1" required="">
                         </div>
@@ -405,6 +433,42 @@
                         </div>
                         <div class="col-sm-0.1">
                             <h4> X3</h4>
+                        </div>
+                    </div>
+                    <div class="text-white">
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <a onclick="addConstraint()" class="btn btn-success btn-user btn-block">
+                                    Add Variable
+
+                                </a>
+                            </div>
+                            <div class="col-sm-6">
+                                <a onclick="removeConstraint()" class="btn btn-danger btn-user btn-block">
+                                    <i class="fab fa-fw"></i> Remove Variable
+                                </a>
+                            </div>
+                        </div>
+                      
+
+                        
+
+
+                    </div>
+                      <hr>
+                    <h2>Number of Constraints</h2>
+
+                    <div class="form-group row">
+                        <div class="col-sm-2 ">
+                            <input type="number" class="form-control form-control-user" id="cNumber" required="">
+                        </div>
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <a href="startSimplex.html" class="btn btn-success btn-icon-split" >
+                              <span class="icon text-white-50">
+                                <i class="fas fa-check"></i>
+                              </span>
+                              <span class="text">Go!</span>
+                            </a>
                         </div>
                     </div>
 
@@ -461,40 +525,28 @@
                         </div>
                         <hr>
 
-                        <input type="submit" class="btn btn-primary btn-user btn-block" value="SOLVE MODEL">
+                        
 
 
                     </div>
                     <br>
 
-                    <h2>Result Panel</h2>
-                    <div class="table-responsive">
-                        <table class="table table-bordered" id="result" width="100%" cellspacing="0">
-                            <thead>
-                                <tr><th>X1</th>
-                                <th>X2</th>
-                                <th>X3</th>
-                                <th>Z</th>
-                            </tr></thead>
-                            <tbody>
-                                <tr>
-                                    <td id="valX1">
-
-                                    </td>
-                                    <td id="valX2">
-
-                                    </td>
-                                    <td id="valX3">
-
-                                    </td>
-                                    <td id="valZ">
-
-                                    </td>
-                                </tr>
-                            </tbody>
-
-
-                        </table>
+                    <h2>Solve Problem</h2>
+                    <div class="solution">
+                        <div class="text-white">
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <a onclick="addConstraint()" class="btn btn-primary btn-user btn-block">
+                                        Step by step
+    
+                                    </a>
+                                </div>
+                                <div class="col-sm-6">
+                                    <a onclick="removeConstraint()" class="btn btn-info btn-user btn-block">
+                                        <i class="fab fa-fw"></i> Final solution
+                                    </a>
+                                </div>
+                            </div>
                     </div>
                 </form>
 
