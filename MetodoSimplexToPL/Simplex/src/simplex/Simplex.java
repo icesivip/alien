@@ -44,15 +44,25 @@ public class Simplex implements Solver{
         private int nVarDecision;
         private Solution solution;
         private String messageSolution;
+        private int iterationID;
+        private String[] initialM;
+        private String operationsDone;
+        private double [] theta;
         
-        public Simplex(String opti, String[] equations) {
+        public Simplex(String opti, String[] equations) throws Exception {
+            initialM = equations;
+            iterationID = 0;
         String [] caracteres = equations[0].split(" ");
 //      -2 del 1 z y -2 del = C. No se divide entre 2 por las variables de holgura
         nVarDecision = caracteres.length/2-2;
-        
-            generateEquaAndFOMatries(equations, opti);
+            try {
+                generateEquaAndFOMatries(equations, opti);
+            
             generateConstraintsLeftMatrix(equations, model.getType().equals(Model.MAXIMIZE));
             solve(model);
+            } catch (Exception e) {
+            throw new Exception("Characters not allowed");
+            }
 //            System.out.print(isMaximization);
         }
             
@@ -61,9 +71,11 @@ public class Simplex implements Solver{
          * @return Una matriz completa que corresponde al resultado de la iteración
          */
         public double[][] nextIteration () {
+            operationsDone = "";
             if(quotientTest()){
              internalteration(model.getType().equals(Model.MAXIMIZE));
-             Final.print(2,2);
+             iterationID++;
+//             Final.print(2,2);
             }
             else {
            double[][] array = Final.getMatrix(0, Final.getRowDimension()-1, 0, Final.getColumnDimension()-2).getArray();
@@ -302,9 +314,11 @@ public class Simplex implements Solver{
                 posMasG = i;
             }
         }
-        if(masGrande != 0)
+        if(masGrande != 0){
             procd = true;
-        double[] theta = new double[Base.length];
+            operationsDone += "La variable " + model.getVariableAt(posMasG).getName() + " entra a base.";
+        }
+        theta = new double[Base.length];
         double rowLow = Double.MAX_VALUE;
         int posLow = -1;
         if(procd){
@@ -315,8 +329,10 @@ public class Simplex implements Solver{
                 posLow = i;
             }
         }
-        if(posLow != -1)
+        if(posLow != -1){
         Base[posLow] = posMasG;
+        operationsDone += " La variable " + model.getVariableAt(posLow + nVarDecision).getName() + " sale de base";
+        }
         else procd = false;
         for (int i = 0; i < Base.length; i++) {
                 System.out.println(Base[i]);
@@ -345,11 +361,11 @@ public class Simplex implements Solver{
 //                                           "0 Z 1 X1 1 X2 -1 X3 0 X4 <= 5",
 //                                           "0 Z 6 X1 5 X2 0 X3 -1 X4 <= 10"});
 //             Infinitas soluciones
-            Simplex s = new Simplex("MAXIMIZE", new String[] {"1 Z -60 X1 -35 X2 -20 X3 = 0",
-                                           "0 Z 8 X1 6 X2 1 X3 <= 48",
-                                           "0 Z 4 X1 2 X2 1.5 X3 <= 20",
-                                           "0 Z 2 X1 1.5 X2 0.5 X3 <= 8",
-                                            "0 Z 0 X1 1 X2 0 X3 <= 5"});
+//            Simplex s = new Simplex("MAXIMIZE", new String[] {"1 Z -60 X1 -35 X2 -20 X3 = 0",
+//                                           "0 Z 8 X1 6 X2 1 X3 <= 48",
+//                                           "0 Z 4 X1 2 X2 1.5 X3 <= 20",
+//                                           "0 Z 2 X1 1.5 X2 0.5 X3 <= 8",
+//                                            "0 Z 0 X1 1 X2 0 X3 <= 5"});
     }
 
     private ArrayList <Integer> calculatePosExcess(String[] equations) {
@@ -430,6 +446,9 @@ public class Simplex implements Solver{
         return messageSolution;
     }
     
+    public String[] getInitialM () {
+        return initialM;
+    }
     public String[] getEveryVariableName() {
         String[] vars = new String[model.getVariableCount()];
         for (int i = 0; i < model.getVariableCount(); i++) 
@@ -445,5 +464,46 @@ public class Simplex implements Solver{
             sig = nextIteration();
         }
         return sig;
+    }
+
+   public String getSolutionInWords() {
+        StringBuilder sb = new StringBuilder("<html><body>");
+        if(solution!= null && model != null){
+             try {
+            for (int i = 0; i < model.getVariableCount(); i++) {
+               
+                    sb.append(model.getVariableAt(i).getName()+" = ");
+                    sb.append(solution.getVariableValue(model.getVariableAt(i)));
+                    sb.append("<br>");
+                     
+            }
+            sb.append("Z = ");
+            sb.append(solution.getObjectiveFunctionValue());
+            sb.append("</body></html>");
+            } catch (Exception ex) {
+                    Logger.getLogger(Simplex.class.getName()).log(Level.SEVERE, null, ex);
+                }  
+        }
+        return sb.toString();
+        
+    }
+
+    public String getCriterion() {
+        return model.getType();
+    }
+    public int getIterationID() {
+        return iterationID;
+    }
+
+    public double[][] getActualMatrix() {
+        return Final.getArray();
+    }
+
+    public String getOperationsDone() {
+        return operationsDone;
+    }
+
+    public double[] getTheta() {
+        return theta;
     }
 }

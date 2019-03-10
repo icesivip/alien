@@ -17,14 +17,16 @@ public class PanelAdvanceMode extends javax.swing.JPanel{
     private JFrame frame;
     
     private LinealProgrammingInterface ui;
+    private final JFrame last;
     
     /**
      * Creates new form PanelAdvaceMode
      */
-    public PanelAdvanceMode(LinealProgrammingInterface ui,String stringNumberOfVariables, String stringNumberOfConstrains, String criterion, JFrame screen) {
+    public PanelAdvanceMode(LinealProgrammingInterface ui,String stringNumberOfVariables, String stringNumberOfConstrains, String criterion, JFrame screen, JFrame last) {
         initComponents();
         labCriterion.setText(criterion);
         frame = screen;
+        this.last = last;
         int numberOfVariables = Integer.parseInt(stringNumberOfVariables);
         int numberOfConstrains = Integer.parseInt(stringNumberOfConstrains);
         numberOfVariables += 3;
@@ -76,6 +78,7 @@ public class PanelAdvanceMode extends javax.swing.JPanel{
         jPanel1 = new javax.swing.JPanel();
         butSolve = new javax.swing.JButton();
         labCriterion = new javax.swing.JLabel();
+        butBack = new javax.swing.JButton();
 
         tabAdvanced.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -94,7 +97,7 @@ public class PanelAdvanceMode extends javax.swing.JPanel{
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
-        butSolve.setText("SOLVE");
+        butSolve.setText("Solve");
         butSolve.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 butSolveActionPerformed(evt);
@@ -104,6 +107,14 @@ public class PanelAdvanceMode extends javax.swing.JPanel{
 
         labCriterion.setText("Max/Min");
         jPanel1.add(labCriterion, java.awt.BorderLayout.LINE_START);
+
+        butBack.setText("Back");
+        butBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butBackActionPerformed(evt);
+            }
+        });
+        jPanel1.add(butBack, java.awt.BorderLayout.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -126,10 +137,31 @@ public class PanelAdvanceMode extends javax.swing.JPanel{
     }// </editor-fold>//GEN-END:initComponents
 
     private void butSolveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butSolveActionPerformed
-        ui.FinalSolution(getInformation(), labCriterion.getText());
+//        tabAdvanced.
+try {
+        String[] equations = getInformation();
+        double[][] finalMatr = ui.FinalSolution(equations, labCriterion.getText());
+        JFrame ventana = new JFrame();
+        PanelSolution panelS = new PanelSolution(ui, equations, tabAdvanced.getColumnCount()-3, true, ventana, frame);
+        panelS.fillMatrix(finalMatr);
+        ventana.setVisible(true);
+        ventana.setTitle(frame.getTitle());
+        frame.setVisible(false);
+        ventana.add(panelS);
+        ventana.setLocationRelativeTo(null);
+        ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ventana.pack();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
     }//GEN-LAST:event_butSolveActionPerformed
 
-    public String[] getInformation(){
+    private void butBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butBackActionPerformed
+        last.setVisible(true);
+        frame.dispose();
+    }//GEN-LAST:event_butBackActionPerformed
+
+    public String[] getInformation() throws Exception{
         String[] information = new String[tabAdvanced.getRowCount()];
         for (int i = 0; i < tabAdvanced.getRowCount(); i++){
            
@@ -152,9 +184,12 @@ public class PanelAdvanceMode extends javax.swing.JPanel{
                       }else{
                            if(j < tabAdvanced.getColumnCount()-2){
                               line+=tabAdvanced.getModel().getValueAt(i, j)+ " "+"X"+j+" "; 
-                           }else{
+                           }else if (j==tabAdvanced.getColumnCount()-2){
+                               String eqSymbol = tabAdvanced.getModel().getValueAt(i, j).toString();
+                               if(eqSymbol.equals(">=")||eqSymbol.equals("<=") || eqSymbol.equals("="))
                                 line+=tabAdvanced.getModel().getValueAt(i, j)+" ";
-                           }
+                               else throw new Exception("Símbolos de inecuaciones mal escritas");
+                           } else line+=tabAdvanced.getModel().getValueAt(i, j);
                            
                        }
                 }
@@ -169,14 +204,8 @@ public class PanelAdvanceMode extends javax.swing.JPanel{
         return information;
     }
     
-    public static void main(String[] args){
-        JFrame ui = null;
-        LinealProgrammingInterface lp = null;
-        PanelAdvanceMode p = new PanelAdvanceMode(lp, "5", "6", "Max", ui);
-        
-    }
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton butBack;
     private javax.swing.JButton butSolve;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

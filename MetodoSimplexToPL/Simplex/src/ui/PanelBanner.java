@@ -53,7 +53,7 @@ public class PanelBanner extends javax.swing.JPanel {
                 butBeginnerActionPerformed(evt);
             }
         });
-        add(butBeginner, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 310, 110, 40));
+        add(butBeginner, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 300, 110, 40));
 
         butAdvanced.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         butAdvanced.setForeground(new java.awt.Color(255, 255, 255));
@@ -63,21 +63,27 @@ public class PanelBanner extends javax.swing.JPanel {
                 butAdvancedActionPerformed(evt);
             }
         });
-        add(butAdvanced, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 381, 110, 40));
+        add(butAdvanced, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 370, 110, 40));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Luis\\Documents\\GitHub\\alien\\MetodoSimplexToPL\\Simplex\\data\\Simplex portada.jpg")); // NOI18N
-        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Simplex portada.jpg"))); // NOI18N
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void butBeginnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butBeginnerActionPerformed
         ui.setMode("Beginner");
+        ui.setLocationRelativeTo(null);
+        ui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ui.setVisible(true);
+        ui.setTitle("SIMPOD-Beginner mode");
         actual.setVisible(false);
     }//GEN-LAST:event_butBeginnerActionPerformed
 
     private void butAdvancedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butAdvancedActionPerformed
         ui.setMode("Advanced");
+        ui.setLocationRelativeTo(null);
+        ui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ui.setVisible(true);
+        ui.setTitle("SIMPOD-Advanced mode");
         actual.setVisible(false);
     }//GEN-LAST:event_butAdvancedActionPerformed
 

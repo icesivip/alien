@@ -26,6 +26,7 @@ public class PanelBeginnerMode extends JPanel implements ActionListener {
     private JTextField[] txtEqualities;
     private PanelVariable[][] panConstraints;
     private JFrame enVista;
+    private JFrame last;
 
     //panVars deberían ser las variables originales x1, x2, ...
     //Para las restricciones hacer una matriz o un arreglo de arraylists de panelVariables
@@ -33,8 +34,9 @@ public class PanelBeginnerMode extends JPanel implements ActionListener {
      * Creates new form PanelEquations nCons is the number of Constrains,
      * without counting the objective function
      */
-    public PanelBeginnerMode(LinealProgrammingInterface ui, String nVar, String nConstr, String optim, JFrame actual) {
+    public PanelBeginnerMode(LinealProgrammingInterface ui, String nVar, String nConstr, String optim, JFrame actual, JFrame last) {
         enVista = actual;
+        this.last = last;
         initComponents();
         labOptimization.setText(optim);
         panConstraints = new PanelVariable[Integer.parseInt(nConstr)][Integer.parseInt(nVar) + 1];
@@ -58,7 +60,7 @@ public class PanelBeginnerMode extends JPanel implements ActionListener {
             butsAdd[i] = new JButton("Add Variable");
             butsAdd[i].addActionListener(this);
             butsAdd[i].setActionCommand(i + "");
-            String[] symbols = {">=", "<=", "="};
+            String[] symbols = {"<=", ">=", "="};
             combSymbols[i] = new JComboBox(symbols);
             txtEqualities[i] = new JTextField(2);
             panIzq[i] = new JPanel();
@@ -90,6 +92,7 @@ public class PanelBeginnerMode extends JPanel implements ActionListener {
         butFinalSolution = new javax.swing.JButton();
         butStepByStep = new javax.swing.JButton();
         labOptimization = new javax.swing.JLabel();
+        butBack = new javax.swing.JButton();
 
         labOF.setText("Objective Function:");
 
@@ -137,6 +140,13 @@ public class PanelBeginnerMode extends JPanel implements ActionListener {
 
         labOptimization.setText("Max/Min");
 
+        butBack.setText("Back");
+        butBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butBackActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -148,6 +158,8 @@ public class PanelBeginnerMode extends JPanel implements ActionListener {
                         .addGap(10, 10, 10)
                         .addComponent(labOptimization)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(butBack)
+                        .addGap(18, 18, 18)
                         .addComponent(butStepByStep)
                         .addGap(18, 18, 18)
                         .addComponent(butFinalSolution)
@@ -175,7 +187,8 @@ public class PanelBeginnerMode extends JPanel implements ActionListener {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(butFinalSolution)
                     .addComponent(butStepByStep)
-                    .addComponent(labOptimization))
+                    .addComponent(labOptimization)
+                    .addComponent(butBack))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -183,30 +196,26 @@ public class PanelBeginnerMode extends JPanel implements ActionListener {
     private void butFinalSolutionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butFinalSolutionActionPerformed
         String[] equations = new String[txtEqualities.length + 1];
         preStepSolution(equations);
-        PanelSolution panelS = new PanelSolution(ui, equations, panVarsObjectiveE.length);
+        double[][] finalMatr = ui.FinalSolution(equations, labOptimization.getText());
         JFrame ventana = new JFrame();
-        ventana.setVisible(true);
-        ventana.setTitle(enVista.getTitle());
-        enVista.setVisible(false);
-        ventana.add(panelS);
-        ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ventana.pack();
-        ui.FinalSolution(equations, labOptimization.getText());
+        PanelSolution panelS = new PanelSolution(ui, equations, panVarsObjectiveE.length, true, ventana, enVista);
+        panelS.fillMatrix(finalMatr);
+        posStepSolution(panelS, ventana);
     }//GEN-LAST:event_butFinalSolutionActionPerformed
 
     private void butStepByStepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butStepByStepActionPerformed
        String[] equations = new String[txtEqualities.length + 1];
         preStepSolution(equations);
         ui.InitializeProcess(equations, labOptimization.getText());
-        PanelSolution panelS = new PanelSolution(ui, equations, panVarsObjectiveE.length);
         JFrame ventana = new JFrame();
-        ventana.setVisible(true);
-        ventana.setTitle(enVista.getTitle());
-        enVista.setVisible(false);
-        ventana.add(panelS);
-        ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ventana.pack();
+        PanelSolution panelS = new PanelSolution(ui, equations, panVarsObjectiveE.length, false, ventana, enVista);
+        posStepSolution(panelS, ventana);
     }//GEN-LAST:event_butStepByStepActionPerformed
+
+    private void butBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butBackActionPerformed
+        last.setVisible(true);
+        enVista.dispose();
+    }//GEN-LAST:event_butBackActionPerformed
 
 private void preStepSolution(String[]equations) {
         //convierte la ecuación objetivo a la forma matricial
@@ -239,7 +248,18 @@ private void preStepSolution(String[]equations) {
             equations[i + 1] += " " + combSymbols[i].getSelectedItem() +" " + txtEqualities[i].getText();
         }
 }
+
+private void posStepSolution (PanelSolution panelS, JFrame ventana) {
+        ventana.setVisible(true);
+        ventana.setTitle(enVista.getTitle());
+        enVista.setVisible(false);
+        ventana.add(panelS);
+        ventana.setLocationRelativeTo(null);
+        ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ventana.pack();
+}
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton butBack;
     private javax.swing.JButton butFinalSolution;
     private javax.swing.JButton butStepByStep;
     private javax.swing.JLabel labCons;

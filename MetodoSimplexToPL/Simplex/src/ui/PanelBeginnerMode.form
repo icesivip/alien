@@ -23,6 +23,8 @@
                       <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
                       <Component id="labOptimization" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
+                      <Component id="butBack" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="butStepByStep" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="butFinalSolution" min="-2" max="-2" attributes="0"/>
@@ -58,6 +60,7 @@
                   <Component id="butFinalSolution" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="butStepByStep" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="labOptimization" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="butBack" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -131,6 +134,14 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Max/Min"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="butBack">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Back"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butBackActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

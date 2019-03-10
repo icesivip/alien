@@ -8,6 +8,7 @@ package ui;
 import java.net.InterfaceAddress;
 import java.time.Clock;
 import java.util.Enumeration;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -23,12 +24,22 @@ import javax.swing.table.TableColumnModel;
 public class PanelSolution extends javax.swing.JPanel {
 
     private LinealProgrammingInterface ui;
+    private JFrame actual;
+    private JFrame last;
     /**
      * Creates new form PanelSolution with n initial variables, 
      */
-    public PanelSolution(LinealProgrammingInterface inter, String[] equations, int nVariables) {
+    public PanelSolution(LinealProgrammingInterface inter, String[] equations, int nVariables, boolean isFinalSolution, JFrame frame, JFrame last) {
         ui = inter;
+        actual = frame;
+        this.last = last;
         initComponents();
+        if(isFinalSolution){
+            labTitleIteration.setVisible(false);
+            labTitleSO.setText("Solution: ");
+            butNext.setVisible(false);
+            labSolutionOrOperation.setText(ui.getSolution());
+        }
         for (int i = 0; i < equations.length; i++) {
                 System.out.println(equations[i]);
         }
@@ -44,6 +55,7 @@ public class PanelSolution extends javax.swing.JPanel {
          for (int j = 0; j < nameVars.length; j++) {
                 tableColumnModel.getColumn(j).setHeaderValue(nameVars[j]);
             }
+                tableColumnModel.getColumn(nameVars.length).setHeaderValue("RHS");
                 tableHeader.repaint();
         for (int i = 0; i < equations.length; i++) {
             equation = equations[i].split(" ");
@@ -68,9 +80,10 @@ public class PanelSolution extends javax.swing.JPanel {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         TabMatrix = new javax.swing.JTable();
-        labIteration = new javax.swing.JLabel();
+        labTitleIteration = new javax.swing.JLabel();
         panOperations = new javax.swing.JPanel();
-        labOperations = new javax.swing.JLabel();
+        labTitleSO = new javax.swing.JLabel();
+        labSolutionOrOperation = new javax.swing.JLabel();
         butNext = new javax.swing.JButton();
         butBack = new javax.swing.JButton();
 
@@ -84,26 +97,15 @@ public class PanelSolution extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(TabMatrix);
 
-        labIteration.setText("Iteration: ");
+        labTitleIteration.setText("Iteration:");
 
-        labOperations.setText("Operations");
+        panOperations.setLayout(new java.awt.BorderLayout());
 
-        javax.swing.GroupLayout panOperationsLayout = new javax.swing.GroupLayout(panOperations);
-        panOperations.setLayout(panOperationsLayout);
-        panOperationsLayout.setHorizontalGroup(
-            panOperationsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panOperationsLayout.createSequentialGroup()
-                .addGap(167, 167, 167)
-                .addComponent(labOperations)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        panOperationsLayout.setVerticalGroup(
-            panOperationsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panOperationsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(labOperations)
-                .addContainerGap(54, Short.MAX_VALUE))
-        );
+        labTitleSO.setText("Operations: ");
+        panOperations.add(labTitleSO, java.awt.BorderLayout.LINE_START);
+
+        labSolutionOrOperation.setText("Fill the table");
+        panOperations.add(labSolutionOrOperation, java.awt.BorderLayout.CENTER);
 
         butNext.setText("Next");
         butNext.addActionListener(new java.awt.event.ActionListener() {
@@ -127,25 +129,23 @@ public class PanelSolution extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
-                            .addComponent(panOperations, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(labIteration)
-                        .addGap(179, 179, 179))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(butBack)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(butNext)
+                        .addComponent(labTitleIteration)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(panOperations, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(butBack)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 470, Short.MAX_VALUE)
+                                .addComponent(butNext))
+                            .addComponent(jScrollPane1))
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 3, Short.MAX_VALUE)
-                .addComponent(labIteration)
+                .addGap(0, 68, Short.MAX_VALUE)
+                .addComponent(labTitleIteration)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -159,17 +159,37 @@ public class PanelSolution extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void butNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butNextActionPerformed
+        if(butNext.getText().equals("Next")){
         double[][] itMatrix = ui.nextIteration();
         fillMatrix(itMatrix);
+        labTitleIteration.setText("Iteration: "+ ui.actualIteration());
+        labSolutionOrOperation.setText(ui.getOperations());
+        if(!ui.getSolution().equals("<html><body>")){
+            butNext.setText("Sensitivity analysis");
+            labTitleSO.setText("Solution: ");
+            labSolutionOrOperation.setText(ui.getSolution());
+        }
+        } else {
+            //to be continue...
+        }
+        actual.pack();
     }//GEN-LAST:event_butNextActionPerformed
 
     private void butBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butBackActionPerformed
-        double[][] itMatrix = ui.lastIteration();
-        fillMatrix(itMatrix);
+        if(labTitleIteration.getText().endsWith(" 0") || labTitleIteration.getText().endsWith(":")){
+            actual.dispose();
+            last.setVisible(true);
+        } else{
+            butNext.setText("Next");
+            fillMatrix(ui.lastIteration());
+            labTitleIteration.setText("Iteration: "+ ui.actualIteration());
+            labSolutionOrOperation.setText(ui.getOperations());
+        }
     }//GEN-LAST:event_butBackActionPerformed
 
-    private void fillMatrix(double[][] itMatrix){
-        TabMatrix = new JTable(itMatrix.length, itMatrix[0].length+1);
+    public void fillMatrix(double[][] itMatrix){
+        TabMatrix = new JTable(itMatrix.length, itMatrix[0].length+2);
+        double[] theta = ui.getThetaColumn();
         JTableHeader tableHeader = TabMatrix.getTableHeader();
         TableColumnModel tableColumnModel = tableHeader.getColumnModel();
         String[] varNames = ui.getVarNames();
@@ -177,13 +197,24 @@ public class PanelSolution extends javax.swing.JPanel {
          for (int j = 1; j < itMatrix[0].length; j++) {
                 tableColumnModel.getColumn(j).setHeaderValue(varNames[j-1]);
             }
+                tableColumnModel.getColumn(itMatrix[0].length).setHeaderValue("RHS");
+                if(theta != null)
+                tableColumnModel.getColumn(itMatrix[0].length+1).setHeaderValue("Theta");
                 tableHeader.repaint();
                 TabMatrix.setValueAt(1.00, 0, 0);
         for (int i = 0; i < itMatrix.length; i++) {
-            if(i>0)
+            if(i>0){
                 TabMatrix.setValueAt(0, i, 0);
-            for (int j = 1; j < TabMatrix.getColumnCount(); j++) {
+                if(theta!= null)
+                TabMatrix.setValueAt(theta[i-1], i, TabMatrix.getColumnCount()-1);
+            }
+            for (int j = 1; j < TabMatrix.getColumnCount()-1; j++) {
                 TabMatrix.setValueAt(itMatrix[i][j-1], i, j);
+            }
+            if(theta!= null){
+                for (int j = 0; j < theta.length; j++) {
+                    System.out.println(theta[j]);
+                }
             }
         }
         jScrollPane1.setViewportView(TabMatrix);
@@ -196,8 +227,9 @@ public class PanelSolution extends javax.swing.JPanel {
     private javax.swing.JButton butBack;
     private javax.swing.JButton butNext;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel labIteration;
-    private javax.swing.JLabel labOperations;
+    private javax.swing.JLabel labSolutionOrOperation;
+    private javax.swing.JLabel labTitleIteration;
+    private javax.swing.JLabel labTitleSO;
     private javax.swing.JPanel panOperations;
     // End of variables declaration//GEN-END:variables
 }
