@@ -215,6 +215,9 @@ public class PrincipalController  implements Initializable{
 	    @FXML
 	    private TextField tfItemName;
 	    
+	    @FXML
+	    private TextField TPOS;
+	    
 	    private OldLotSizingMethods lotSizingRules;
 	    
 	    @FXML 
@@ -396,7 +399,10 @@ public class PrincipalController  implements Initializable{
 				mps.addBruteRequirement(Integer.parseInt(textFBruteRequirements.get(i).getText()));
 				mps.addScheduleReception(Integer.parseInt(textFScheduledReceptions.get(i).getText()));
 			}
-			mps.hopeThisWorks();
+			if(cbLotTec.getValue().equals("Periods Of Suply")) {
+				mps.setTPeriodOFSupply(Integer.parseInt(TPOS.getText()));
+			}
+			mps.createMPS();
 			for(int i = 0; i < textFBruteRequirements.size(); i++) {
 				textFScheduledAvailableStock.get(i).setText("" + mps.getScheduledAvailableStock().get(i));
 				textFNetRequirements.get(i).setText("" + mps.getNetRequirements().get(i));

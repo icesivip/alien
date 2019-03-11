@@ -113,7 +113,7 @@ public class MPSView implements Initializable{
 			mps.addBruteRequirement(Integer.parseInt(textFBruteRequirements.get(i).getText()));
 			mps.addScheduleReception(Integer.parseInt(textFScheduledReceptions.get(i).getText()));
 		}
-		mps.hopeThisWorks();
+		mps.createMPS();
 		for(int i = 0; i < textFBruteRequirements.size(); i++) {
 			textFScheduledAvailableStock.get(i).setText("" + mps.getScheduledAvailableStock().get(i));
 			textFNetRequirements.get(i).setText("" + mps.getNetRequirements().get(i));

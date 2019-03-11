@@ -15,9 +15,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderLayout" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="363.0" prefWidth="850.0" style="-fx-border-color: #D7DF01;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PrincipalController">
+<BorderPane fx:id="borderLayout" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="363.0" prefWidth="850.0" style="-fx-border-color: #D7DF01;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PrincipalController">
    <center>
-      <TabPane fx:id="tabPane" prefHeight="370.0" prefWidth="862.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+      <TabPane fx:id="tabPane" prefHeight="391.0" prefWidth="848.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
           <Tab fx:id="tabLotSizing" text="Lot Sizing Techniques">
                <content>
@@ -147,7 +147,7 @@
                         </Pane>
                      </bottom>
                      <left>
-                        <Pane fx:id="PaneTabMpsPrincipalnfo" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                        <Pane fx:id="PaneTabMpsPrincipalnfo" prefHeight="285.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                            <children>
                               <GridPane fx:id="gpPanePrincipalInfo">
                                 <columnConstraints>
@@ -186,6 +186,7 @@
                                     <TextField fx:id="tfItemName" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                                  </children>
                               </GridPane>
+                              <TextField fx:id="TPOS" layoutX="98.0" layoutY="270.0" prefHeight="25.0" prefWidth="102.0" />
                            </children>
                         </Pane>
                      </left>
