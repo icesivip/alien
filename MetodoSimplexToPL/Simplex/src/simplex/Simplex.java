@@ -36,6 +36,7 @@ public class Simplex implements Solver{
          * indices que forman la matriz identidad
          */
         private int [] Base;
+        private String[] varsBase;
         /**
          * matriz que representa la matriz final de una iteración (sin la columna del Z)
          */
@@ -110,6 +111,7 @@ public class Simplex implements Solver{
        private void calculateInitialBase () {
            double[][] array = ConsLeft.getArray();
            Base = new int[equalities.getArray().length];
+           varsBase = new String[Base.length];
            for (int i = 0; i < array.length; i++) {
                for (int j = nVarDecision; j < array[0].length; j++) {
                    if(array[i][j] == 1) {
@@ -120,8 +122,10 @@ public class Simplex implements Solver{
                                break;
                            }
                        }
-                       if(base)
+                       if(base){
                            Base[i] = j;
+                           varsBase[i] =  model.getVariableAt(j).getName();
+                   }
                    }
                }
            }
@@ -324,12 +328,13 @@ public class Simplex implements Solver{
         }
         if(posLow != -1){
         Base[posLow] = posMasG;
+        varsBase[posLow] =  model.getVariableAt(posMasG).getName();
         operationsDone += " La variable " + model.getVariableAt(posLow + nVarDecision).getName() + " sale de base";
         }
         else procd = false;
         System.out.println("esta es la base");
         for (int i = 0; i < Base.length; i++) {
-                System.out.println(Base[i]);
+                System.out.println(varsBase[i]);
             }
         }
         return procd;
