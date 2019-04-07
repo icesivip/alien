@@ -11,7 +11,7 @@ public class Simplex implements Solver{
     private static final int BIG_M = 1000000;
     
 	private Model model;
-        
+        private SensivilityAnalysis analysis;
         /**
          * matriz interna, solo variables y sin la columna y fila del Z, tampoco tiene la fila de las igualdades
          */
@@ -78,21 +78,14 @@ public class Simplex implements Solver{
 //             Final.print(2,2);
             }
             else {
+//                if(Base[i]==j)
+//                           valuesSolution[j] = Final.getArray()[i][Final.getColumnDimension()-1];
            double[][] array = Final.getMatrix(0, Final.getRowDimension()-1, 0, Final.getColumnDimension()-2).getArray();
            double[] valuesSolution = new double[array[0].length];
-           for (int i = 0; i < array.length; i++) {
+           for (int i = 1; i < array.length; i++) {
                for (int j = 0; j < array[0].length; j++) {
-                   if(array[i][j] == 1) {
-                       boolean isBasic = true;
-                       for (int k = 0; k < array.length; k++) {
-                           if(array[k][j] != 0 && k != i){
-                               isBasic = false;
-                               break;
-                           }
-                       }
-                       if(isBasic)
+                       if(Base[i-1] == j)
                            valuesSolution[j] = Final.getArray()[i][Final.getColumnDimension()-1];
-                   }
                }
            }
            System.out.print("solución valores ");
@@ -107,14 +100,14 @@ public class Simplex implements Solver{
             Logger.getLogger(Simplex.class.getName()).log(Level.SEVERE, null, ex);
         }
             }
-            Final.print(2, 2);
+//            Final.print(2, 2);
              return Final.getArray();
         }
         
         /**
          * Calcula la base inicial del problema
          */
-       public void calculateInitialBase () {
+       private void calculateInitialBase () {
            double[][] array = ConsLeft.getArray();
            Base = new int[equalities.getArray().length];
            for (int i = 0; i < array.length; i++) {
@@ -188,7 +181,7 @@ public class Simplex implements Solver{
 //             B.print(2, 2);
              return B;
        }
-       public Matrix takeSlackOF(Matrix ObjF, int [] Base){
+       private Matrix takeSlackOF(Matrix ObjF, int [] Base){
              double [][] C_B1 = new double [Base.length][1];
  
              for (int j = 0; j<Base.length; j++){                  
@@ -334,23 +327,24 @@ public class Simplex implements Solver{
         operationsDone += " La variable " + model.getVariableAt(posLow + nVarDecision).getName() + " sale de base";
         }
         else procd = false;
+        System.out.println("esta es la base");
         for (int i = 0; i < Base.length; i++) {
                 System.out.println(Base[i]);
             }
         }
         return procd;
     }
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 //        Problema normi
 //        Simplex s = new Simplex("MAXIMIZE", new String[] {"1 Z -3 X1 -5 X2 = 0",
 //                                           "0 Z 1 X1 0 X2 <= 4",
 //                                           "0 Z 0 X1 2 X2 <= 12",
 //                                           "0 Z 3 X1 2 X2 <= 18"});
 //           Gran M method
-//           Simplex s = new Simplex("MINIMIZE", new String[] {"1 Z -2 X1 -3 X2 = 0",
-//                                           "0 Z 0.5 X1 0.25 X2 <= 4",
-//                                           "0 Z 1 X1 3 X2 >= 20",
-//                                           "0 Z 1 X1 1 X2 = 10"});
+           Simplex s = new Simplex("MINIMIZE", new String[] {"1 Z -2 X1 -3 X2 = 0",
+                                           "0 Z 0.5 X1 0.25 X2 <= 4",
+                                           "0 Z 1 X1 3 X2 >= 20",
+                                           "0 Z 1 X1 1 X2 = 10"});
 //          Solución no factible
 //          Simplex s = new Simplex("MINIMIZE", new String[] {"1 Z -2 X1 -3 X2 = 0",
 //                                           "0 Z 0.5 X1 0.25 X2 <= 4",
@@ -505,5 +499,14 @@ public class Simplex implements Solver{
 
     public double[] getTheta() {
         return theta;
+    }
+
+    public String buildAnalysis() {
+       analysis = new SensivilityAnalysis(this, model, solution, SlackOF, equalities, Final);
+       return analysis.getEquations();
+    }
+
+    public void getIntervals() {
+        analysis.getIntervalsD();
     }
 }

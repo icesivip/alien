@@ -303,4 +303,12 @@ public class LinealProgrammingInterface extends javax.swing.JFrame {
     double[] getThetaColumn() {
         return simplex.getTheta();
     }
+
+    String startAnalysis() {
+        return simplex.buildAnalysis();
+    }
+
+    void getIntervals() {
+       simplex.getIntervals();
+    }
 }

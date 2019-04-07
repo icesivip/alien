@@ -169,8 +169,11 @@ public class PanelSolution extends javax.swing.JPanel {
             labTitleSO.setText("Solution: ");
             labSolutionOrOperation.setText(ui.getSolution());
         }
+        } else if (butNext.getText().equals("Sensitivity analysis")){
+            labSolutionOrOperation.setText(ui.startAnalysis());
+            butNext.setText("Get Intervals");
         } else {
-            //to be continue...
+            ui.getIntervals();
         }
         actual.pack();
     }//GEN-LAST:event_butNextActionPerformed
